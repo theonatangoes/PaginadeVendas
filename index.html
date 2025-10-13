@@ -496,37 +496,38 @@
         });
       });
 
-      // Script para conectar o formulário à planilha
+      // ===== INÍCIO DA ALTERAÇÃO: Script para enviar formulário para o WhatsApp =====
       const form = document.getElementById('inscricao-form');
       if (form) {
-        const formStatus = document.getElementById('form-status');
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyIY1LLx0dv0Q5vHRdQkk6MHY9bGSc1v2VycteCj8amONzpmD0aF9KuAsUhXcIUmlbk/exec';
+        form.addEventListener('submit', function (e) {
+          e.preventDefault(); // Impede o envio padrão do formulário
 
-        form.addEventListener('submit', e => {
-          e.preventDefault();
-          const submitButton = form.querySelector('button[type="submit"]');
-          submitButton.disabled = true;
-          submitButton.innerHTML = 'Enviando...';
+          // 1. Pega os valores dos campos do formulário
+          const nome = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
 
-          fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-            .then(response => {
-              if (response.ok) {
-                formStatus.innerHTML = '<p class="text-green-400">Inscrição enviada com sucesso! Obrigado.</p>';
-                form.reset();
-              } else {
-                throw new Error('Falha na resposta da rede.');
-              }
-            })
-            .catch(error => {
-              formStatus.innerHTML = '<p class="text-red-400">Ocorreu um erro. Tente novamente.</p>';
-              console.error('Error!', error.message);
-            })
-            .finally(() => {
-              submitButton.disabled = false;
-              submitButton.innerHTML = 'Quero Garantir Minha Vaga!';
-            });
+          // 2. Define o número de telefone de destino (com código do país, sem espaços ou símbolos)
+          const telefone = '5588996754794';
+
+          // 3. Monta a mensagem personalizada
+          const mensagem = `MEU NOME É: ${nome} dDO E-MAIL: ${email} E GOSTARIA DE GARANTIR MINHA VAGA NA MENTORIA FULL DESIGN`;
+
+          // 4. Codifica a mensagem para ser usada em uma URL
+          const mensagemCodificada = encodeURIComponent(mensagem);
+
+          // 5. Cria a URL final para o WhatsApp
+          const urlWhatsApp = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
+
+          // 6. Abre o WhatsApp em uma nova aba
+          window.open(urlWhatsApp, '_blank');
+
+          // Opcional: Limpa o formulário e exibe uma mensagem de status
+          const formStatus = document.getElementById('form-status');
+          formStatus.innerHTML = '<p class="text-green-400">Redirecionando para o WhatsApp...</p>';
+          form.reset();
         });
       }
+      // ===== FIM DA ALTERAÇÃO =====
 
       // Inicializa Feather Icons
       feather.replace();
