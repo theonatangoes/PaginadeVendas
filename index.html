@@ -488,7 +488,7 @@
       const form = document.getElementById('inscricao-form');
       if (form) {
         form.addEventListener('submit', function (e) {
-          e.preventDefault(); // Impede o envio padrão do formulário
+          e.preventDefault();
 
           // 1. Pega os valores dos campos do formulário
           const nome = document.getElementById('name').value;
@@ -498,7 +498,7 @@
           const telefone = '5588996754794';
 
           // 3. Monta a mensagem personalizada
-          const mensagem = `MEU NOME É: ${nome} dDO E-MAIL: ${email} E GOSTARIA DE GARANTIR MINHA VAGA NA MENTORIA FULL DESIGN`;
+          const mensagem = `MEU NOME É: ${nome} DO E-MAIL: ${email} E GOSTARIA DE GARANTIR MINHA VAGA NA MENTORIA FULL DESIGN`;
 
           // 4. Codifica a mensagem para ser usada em uma URL
           const mensagemCodificada = encodeURIComponent(mensagem);
