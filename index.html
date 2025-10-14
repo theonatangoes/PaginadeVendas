@@ -24,6 +24,21 @@
           fontFamily: {
             'sans': ['Inter', 'sans-serif'],
             'serif': ['Montserrat', 'sans-serif'],
+          },
+          animation: {
+            'pulse-custom': 'pulse-custom 2s infinite',
+          },
+          keyframes: {
+            'pulse-custom': {
+              '0%, 100%': {
+                transform: 'scale(1)',
+                boxShadow: '0 0 5px #D81B60'
+              },
+              '50%': {
+                transform: 'scale(1.05)',
+                boxShadow: '0 0 25px #D81B60'
+              }
+            }
           }
         }
       }
@@ -90,26 +105,8 @@
       transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
     }
 
-    .animate-pulse-btn {
-      animation: pulse-btn 1.5s infinite;
-    }
-
     .animate-flash {
       animation: flash 1.5s infinite;
-    }
-
-    @keyframes pulse-btn {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.02);
-      }
-
-      100% {
-        transform: scale(1);
-      }
     }
 
     @keyframes flash {
@@ -141,7 +138,10 @@
         <a href="#mentores" class="hover:text-brand-pink transition-colors duration-300">Seus Mentores</a>
         <a href="#faq" class="hover:text-brand-pink transition-colors duration-300">Dúvidas</a>
       </div>
-      <a href="#inscricao" class="hidden md:block px-6 py-2 rounded-md bg-brand-pink text-white font-medium hover:bg-brand-pink-dark transition-colors duration-300 animate-pulse-btn">Garanta sua Vaga</a>
+
+      <a href="#inscricao" class="group relative hidden md:block px-6 py-2 rounded-md bg-brand-pink text-white font-medium overflow-hidden transition duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] cursor-pointer">
+        <span class="relative z-10 transition duration-300">Garanta sua Vaga</span>
+      </a>
       <button class="md-hidden focus:outline-none" id="mobile-menu-button">
         <i data-feather="menu" class="w-6 h-6 text-white"></i>
       </button>
@@ -152,7 +152,10 @@
         <a href="#conteudo" class="hover:text-brand-pink">O Que Você Vai Dominar</a>
         <a href="#mentores" class="hover:text-brand-pink">Seus Mentores</a>
         <a href="#faq" class="hover:text-brand-pink">Dúvidas</a>
-        <a href="#inscricao" class="px-6 py-2 rounded-md bg-brand-pink text-white font-medium text-center hover:bg-brand-pink-dark animate-pulse-btn">Garanta sua Vaga</a>
+
+        <a href="#inscricao" class="group relative px-6 py-2 rounded-md bg-brand-pink text-white font-medium text-center overflow-hidden transition duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] cursor-pointer">
+          <span class="relative z-10 transition duration-300">Garanta sua Vaga</span>
+        </a>
       </div>
     </div>
   </nav>
@@ -163,7 +166,7 @@
       <p class="text-lg md:text-xl font-bold text-brand-pink mb-6">Online | Apenas 10 Vagas!</p>
       <h2 class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto font-light">Transforme sua paixão por design em uma carreira de sucesso.</h2>
       <p class="text-lg md:text-xl mb-12 max-w-2xl mx-auto">Um dia de imersão total com a Flux Agency para você dominar as ferramentas, criar um portfólio incrível e aprender a vender seus projetos para clientes de verdade.</p>
-      <a href="#inscricao" class="inline-block px-8 py-4 rounded-md bg-brand-pink text-white font-bold text-lg hover:bg-brand-pink-dark hover:shadow-xl hover:shadow-brand-pink/30 transition-all duration-300 animate-pulse-btn">Quero me Tornar um Designer Pro!</a>
+      <a href="#inscricao" class="group relative inline-block px-8 py-4 rounded-full text-white font-bold text-lg border-4 border-brand-pink bg-brand-pink animate-pulse-custom transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] overflow-hidden cursor-pointer">Quero me Tornar um Designer Pro!</a>
       <div class="mt-12 text-gray-300 font-mono">
         <div id="countdown" class="text-2xl tracking-widest"></div>
       </div>
@@ -318,7 +321,7 @@
             <label for="phone" class="block text-white text-sm font-bold mb-2">WhatsApp (Opcional)</label>
             <input type="tel" id="phone" name="WhatsApp" class="w-full bg-gray-800 border border-gray-700 text-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-transparent" placeholder="(XX) 99999-9999">
           </div>
-          <button type="submit" class="w-full px-8 py-4 rounded-md bg-brand-pink text-white font-bold text-lg hover:bg-brand-pink-dark hover:shadow-xl hover:shadow-brand-pink/30 transition-all duration-300 animate-pulse-btn">Quero Garantir Minha Vaga!</button>
+          <button type="submit" class="group relative w-full px-8 py-4 rounded-full text-white font-bold text-lg border-4 border-brand-pink bg-brand-pink animate-pulse-custom transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] overflow-hidden cursor-pointer">Quero Garantir Minha Vaga!</button>
         </form>
         <div id="form-status" class="mt-4 text-center"></div>
       </div>
@@ -410,9 +413,7 @@
   </footer>
 
   <script>
-    // Bloco de script principal e unificado
     document.addEventListener('DOMContentLoaded', function () {
-      // Contador regressivo
       const countdownEl = document.getElementById('countdown');
       if (countdownEl) {
         const eventDate = new Date('October 25, 2025 09:00:00').getTime();
@@ -435,7 +436,6 @@
         }, 1000);
       }
 
-      // Menu mobile
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
       if (mobileMenuButton && mobileMenu) {
@@ -444,7 +444,6 @@
         });
       }
 
-      // Rolagem suave para âncoras
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
@@ -454,7 +453,6 @@
         });
       });
 
-      // Script para o FAQ interativo
       const faqItems = document.querySelectorAll('.faq-item');
       faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
@@ -484,40 +482,23 @@
         });
       });
 
-      // ===== INÍCIO DA ALTERAÇÃO: Script para enviar formulário para o WhatsApp =====
       const form = document.getElementById('inscricao-form');
       if (form) {
         form.addEventListener('submit', function (e) {
           e.preventDefault();
-
-          // 1. Pega os valores dos campos do formulário
           const nome = document.getElementById('name').value;
           const email = document.getElementById('email').value;
-
-          // 2. Define o número de telefone de destino (com código do país, sem espaços ou símbolos)
           const telefone = '5588996754794';
-
-          // 3. Monta a mensagem personalizada
-          const mensagem = `MEU NOME É: ${nome} DO E-MAIL: ${email} E GOSTARIA DE GARANTIR MINHA VAGA NA MENTORIA FULL DESIGN`;
-
-          // 4. Codifica a mensagem para ser usada em uma URL
+          const mensagem = `*MEU NOME É:* ${nome}, *DO E-MAIL:* ${email}, E GOSTARIA DE GARANTIR MINHA VAGA NA MENTORIA FULL DESIGN`;
           const mensagemCodificada = encodeURIComponent(mensagem);
-
-          // 5. Cria a URL final para o WhatsApp
           const urlWhatsApp = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
-
-          // 6. Abre o WhatsApp em uma nova aba
           window.open(urlWhatsApp, '_blank');
-
-          // Opcional: Limpa o formulário e exibe uma mensagem de status
           const formStatus = document.getElementById('form-status');
           formStatus.innerHTML = '<p class="text-green-400">Redirecionando para o WhatsApp...</p>';
           form.reset();
         });
       }
-      // ===== FIM DA ALTERAÇÃO =====
 
-      // Inicializa Feather Icons
       feather.replace();
     });
   </script>
