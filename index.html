@@ -270,6 +270,49 @@
       transform: translateY(-3px);
       box-shadow: 0 15px 30px rgba(216, 27, 96, 0.4), 0 0 60px rgba(216, 27, 96, 0.3);
     }
+
+    /* Esferas para mobile - posicionadas nas extremidades */
+    .mobile-sphere {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.5;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .mobile-sphere-pink {
+      background: #ff00cc;
+      width: 250px;
+      height: 250px;
+      top: -120px;
+      left: -120px;
+    }
+
+    .mobile-sphere-purple {
+      background: #9900ff;
+      width: 220px;
+      height: 220px;
+      bottom: -110px;
+      right: -110px;
+    }
+
+    /* Ajustes para telas maiores */
+    @media (min-width: 768px) {
+      .mobile-sphere-pink {
+        width: 350px;
+        height: 350px;
+        top: -175px;
+        left: -175px;
+      }
+
+      .mobile-sphere-purple {
+        width: 300px;
+        height: 300px;
+        bottom: -150px;
+        right: -150px;
+      }
+    }
   </style>
 </head>
 
@@ -278,6 +321,10 @@
   <div id="canvas-container">
     <canvas id="network-canvas"></canvas>
   </div>
+
+  <!-- Esferas para mobile -->
+  <div class="mobile-sphere mobile-sphere-pink"></div>
+  <div class="mobile-sphere mobile-sphere-purple"></div>
 
   <nav class="fixed w-full z-50 top-0 transition-all duration-300 glass" id="navbar">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
