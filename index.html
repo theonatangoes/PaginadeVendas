@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mentoria Full Design | Flux Agency</title>
   <link rel="shortcut icon" href="imagens/FLUX AGENCY ROSA.png" type="image/x-icon">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
@@ -18,26 +19,46 @@
       theme: {
         extend: {
           colors: {
-            'brand-pink': '#D81B60',
-            'brand-pink-dark': '#C2185B',
+            'brand': {
+              light: '#FF4081',
+              DEFAULT: '#D81B60',
+              dark: '#880E4F',
+            },
+            'dark': {
+              bg: '#050505',
+              card: '#0F0F0F',
+              surface: '#1A1A1A'
+            }
           },
           fontFamily: {
-            'sans': ['Inter', 'sans-serif'],
-            'serif': ['Montserrat', 'sans-serif'],
+            'sans': ['Outfit', 'sans-serif'],
+            'display': ['Space Grotesk', 'sans-serif'],
           },
           animation: {
-            'pulse-custom': 'pulse-custom 2s infinite',
+            'blob': 'blob 7s infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'gradient': 'gradient 3s ease infinite',
+            'gradient-flow': 'gradientFlow 4s linear infinite',
           },
           keyframes: {
-            'pulse-custom': {
-              '0%, 100%': {
-                transform: 'scale(1)',
-                boxShadow: '0 0 5px #D81B60'
-              },
-              '50%': {
-                transform: 'scale(1.05)',
-                boxShadow: '0 0 25px #D81B60'
-              }
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            gradient: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+            gradientFlow: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
             }
           }
         }
@@ -46,463 +67,765 @@
   </script>
 
   <style>
-    .hero-section {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1522881193457-31ae824a70a8?q=80&w=2070&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
     }
 
-    .section-bg-pink-gradient {
-      background-color: #000;
-      background-image: radial-gradient(at top left, rgba(216, 27, 96, 0.15) 0%, transparent 50%),
-        radial-gradient(at bottom right, rgba(216, 27, 96, 0.15) 0%, transparent 50%);
+    ::-webkit-scrollbar-track {
+      background: #050505;
     }
 
-    .card-pink-gradient {
-      position: relative;
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D81B60;
+    }
+
+    /* Background Canvas */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-color: #050505;
       overflow: hidden;
-      background-color: #000;
-      border: 1px solid rgba(216, 27, 96, 0.3);
     }
 
-    .card-pink-gradient::before {
+    /* Glassmorphism Classes */
+    .glass {
+      background: rgba(20, 20, 20, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .glass-card {
+      background: linear-gradient(145deg, rgba(25, 25, 25, 0.9) 0%, rgba(10, 10, 10, 0.8) 100%);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(216, 27, 96, 0.5);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px -10px rgba(216, 27, 96, 0.3);
+    }
+
+    /* Text Selection Color */
+    ::selection {
+      background: #D81B60;
+      color: white;
+    }
+
+    /* Scroll Reveal Animation Classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all 0.8s ease-out;
+    }
+
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Neon Glow Text */
+    .text-glow {
+      text-shadow: 0 0 20px rgba(216, 27, 96, 0.5);
+    }
+
+    /* Gradiente animado de fundo para seções especiais */
+    .gradient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    /* Efeito de gradiente animado melhorado */
+    .animated-gradient {
+      background: linear-gradient(90deg, #ff0080, #4d0365, #ff0080);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientFlow 5s linear infinite;
+      display: inline-block;
+      position: relative;
+    }
+
+    .animated-gradient::after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 50px;
-      background: linear-gradient(to bottom, rgba(216, 27, 96, 0.2), transparent);
-      z-index: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, #ff0080, #4d0365, #ff0080);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 5s linear infinite;
+      filter: blur(8px);
+      opacity: 0.7;
+      z-index: -1;
     }
 
-    .card-pink-gradient>* {
-      position: relative;
-      z-index: 1;
-    }
-
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
+    @keyframes gradientFlow {
       0% {
-        transform: translateY(0px);
-      }
-
-      50% {
-        transform: translateY(-15px);
+        background-position: 0% 50%;
       }
 
       100% {
-        transform: translateY(0px);
+        background-position: 300% 50%;
       }
     }
 
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+    /* Logos das ferramentas */
+    .tool-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      filter: grayscale(1) brightness(0.7);
+      transition: all 0.3s ease;
     }
 
-    .animate-flash {
-      animation: flash 1.5s infinite;
-    }
-
-    @keyframes flash {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 0.8;
-        transform: scale(1.05);
-      }
+    .tool-logo:hover {
+      filter: grayscale(0) brightness(1);
+      transform: scale(1.1);
     }
   </style>
 </head>
 
-<body class="bg-black text-gray-300 font-sans">
+<body class="bg-dark-bg text-gray-300 antialiased selection:bg-brand selection:text-white overflow-x-hidden">
 
-  <nav class="bg-black shadow-md shadow-brand-pink/20 fixed w-full z-50">
-    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-      <div class="flex items-center">
-        <img src="imagens/FLUX AGENCY.png" alt="Logo Flux Agency" class="h-10 w-auto">
-      </div>
-      <div class="hidden md:flex space-x-8 text-white">
-        <a href="#sobre" class="hover:text-brand-pink transition-colors duration-300">A Mentoria</a>
-        <a href="#conteudo" class="hover:text-brand-pink transition-colors duration-300">O Que Você Vai Dominar</a>
-        <a href="#mentores" class="hover:text-brand-pink transition-colors duration-300">Seus Mentores</a>
-        <a href="#faq" class="hover:text-brand-pink transition-colors duration-300">Dúvidas</a>
+  <div id="canvas-container">
+    <canvas id="network-canvas"></canvas>
+  </div>
+
+  <nav class="fixed w-full z-50 top-0 transition-all duration-300 glass" id="navbar">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-brand rounded-full blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
+          <img src="imagens/FLUX AGENCY.png" alt="Flux Agency" class="relative h-10 w-auto object-contain">
+        </div>
       </div>
 
-      <a href="#inscricao" class="group relative hidden md:block px-6 py-2 rounded-md bg-brand-pink text-white font-medium overflow-hidden transition duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] cursor-pointer">
-        <span class="relative z-10 transition duration-300">Garanta sua Vaga</span>
-      </a>
-      <button class="md-hidden focus:outline-none" id="mobile-menu-button">
-        <i data-feather="menu" class="w-6 h-6 text-white"></i>
+      <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+        <a href="#sobre" class="hover:text-brand transition-colors duration-300">A MENTORIA</a>
+        <a href="#conteudo" class="hover:text-brand transition-colors duration-300">CONTEÚDO</a>
+        <a href="#mentores" class="hover:text-brand transition-colors duration-300">MENTORES</a>
+        <a href="#faq" class="hover:text-brand transition-colors duration-300">FAQ</a>
+
+        <a href="#inscricao" class="relative px-6 py-2 group overflow-hidden rounded-full bg-transparent border border-brand text-brand font-semibold transition-all hover:text-white">
+          <span class="absolute w-0 h-full transition-all duration-300 ease-out bg-brand group-hover:w-full left-0 top-0"></span>
+          <span class="relative">GARANTIR VAGA</span>
+        </a>
+      </div>
+
+      <button class="md:hidden text-white hover:text-brand focus:outline-none transition" id="mobile-menu-btn">
+        <i data-feather="menu" class="w-8 h-8"></i>
       </button>
     </div>
-    <div class="md-hidden hidden bg-black w-full px-6 py-4" id="mobile-menu">
-      <div class="flex flex-col space-y-4 text-white">
-        <a href="#sobre" class="hover:text-brand-pink">A Mentoria</a>
-        <a href="#conteudo" class="hover:text-brand-pink">O Que Você Vai Dominar</a>
-        <a href="#mentores" class="hover:text-brand-pink">Seus Mentores</a>
-        <a href="#faq" class="hover:text-brand-pink">Dúvidas</a>
 
-        <a href="#inscricao" class="group relative px-6 py-2 rounded-md bg-brand-pink text-white font-medium text-center overflow-hidden transition duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] cursor-pointer">
-          <span class="relative z-10 transition duration-300">Garanta sua Vaga</span>
-        </a>
+    <div class="md:hidden hidden glass border-t border-gray-800 absolute w-full" id="mobile-menu">
+      <div class="flex flex-col p-6 space-y-4 text-center">
+        <a href="#sobre" class="text-gray-300 hover:text-brand py-2">A MENTORIA</a>
+        <a href="#conteudo" class="text-gray-300 hover:text-brand py-2">CONTEÚDO</a>
+        <a href="#mentores" class="text-gray-300 hover:text-brand py-2">MENTORES</a>
+        <a href="#inscricao" class="bg-brand text-white py-3 rounded-lg font-bold shadow-[0_0_15px_rgba(216,27,96,0.4)]">GARANTIR VAGA</a>
       </div>
     </div>
   </nav>
 
-  <section class="hero-section text-white pt-32 pb-24 md:pt-40 md:pb-32">
-    <div class="container mx-auto px-6 text-center">
-      <h1 class="font-serif text-4xl md:text-6xl font-bold mb-4 animate-float tracking-tight">Mentoria Full Design: Do Zero ao Pro</h1>
-      <p class="text-lg md:text-xl font-bold text-brand-pink mb-6">Online | Apenas 10 Vagas!</p>
-      <h2 class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto font-light">Transforme sua paixão por design em uma carreira de sucesso.</h2>
-      <p class="text-lg md:text-xl mb-12 max-w-2xl mx-auto">Um dia de imersão total com a Flux Agency para você dominar as ferramentas, criar um portfólio incrível e aprender a vender seus projetos para clientes de verdade.</p>
-      <a href="#inscricao" class="group relative inline-block px-8 py-4 rounded-full text-white font-bold text-lg border-4 border-brand-pink bg-brand-pink animate-pulse-custom transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] overflow-hidden cursor-pointer">Quero me Tornar um Designer Pro!</a>
-      <div class="mt-12 text-gray-300 font-mono">
-        <div id="countdown" class="text-2xl tracking-widest"></div>
+  <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <div class="gradient-orb w-96 h-96 bg-brand top-20 left-[-100px] animate-blob"></div>
+    <div class="gradient-orb w-96 h-96 bg-purple-600 bottom-20 right-[-100px] animate-blob" style="animation-delay: 2s"></div>
+
+    <div class="container mx-auto px-6 text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-brand/30 mb-8 reveal">
+        <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+        <span class="text-xs font-bold tracking-widest text-brand uppercase">Vagas Limitadas</span>
+      </div>
+
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight leading-tight reveal">
+        Design que <br>
+        <span class="animated-gradient text-glow">Transforma</span> Carreiras
+      </h1>
+
+      <p class="text-lg md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed font-light reveal">
+        Imersão total. Ferramentas profissionais. Estratégias de venda. <br>
+        <strong class="text-white">Do Zero ao Pro em um dia.</strong>
+      </p>
+
+      <div class="flex flex-col md:flex-row justify-center gap-6 reveal">
+        <a href="#inscricao" class="group relative px-8 py-4 bg-brand rounded-full text-white font-bold text-lg tracking-wide overflow-hidden shadow-[0_0_20px_rgba(216,27,96,0.4)] hover:shadow-[0_0_40px_rgba(216,27,96,0.6)] transition-all transform hover:-translate-y-1">
+          <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+          <span class="relative flex items-center gap-2">QUERO ME TORNAR PRO <i data-feather="arrow-right"></i></span>
+        </a>
+        <a href="#sobre" class="px-8 py-4 rounded-full border border-gray-600 hover:border-brand hover:text-brand transition-all font-medium text-lg glass">
+          Saiba Mais
+        </a>
+      </div>
+
+      <div class="mt-16 font-mono text-brand text-xl tracking-[0.2em] reveal">
+        <div id="countdown" class="glass inline-block px-8 py-4 rounded-lg border-brand/20">CARREGANDO...</div>
       </div>
     </div>
   </section>
 
-  <section id="sobre" class="py-20 section-bg-pink-gradient">
+  <section id="sobre" class="py-24 relative">
     <div class="container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-pink mb-6">Para Quem é a Mentoria?</h2>
-        <p class="text-white text-lg max-w-3xl mx-auto">Se você é um iniciante querendo começar, um freelancer buscando evoluir ou um estudante querendo entrar no mercado, esta mentoria é o atalho que você precisa.</p>
+      <div class="text-center mb-20 reveal">
+        <h2 class="font-display text-3xl md:text-5xl font-bold mb-6">Não é apenas uma mentoria.<br>É um <span class="text-brand">Atalho.</span></h2>
+        <p class="text-gray-400 max-w-2xl mx-auto text-lg">Chega de tutoriais soltos no YouTube. Aqui você aprende a lógica, a técnica e o negócio.</p>
       </div>
-      <div class="grid md:grid-cols-3 gap-10">
-        <div class="text-center p-8 rounded-lg card-pink-gradient transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/20 hover:scale-105">
-          <i data-feather="compass" class="w-12 h-12 text-brand-pink mx-auto mb-4"></i>
-          <h3 class="text-xl font-bold text-white mb-3 font-serif">Fundamentos do Design</h3>
-          <p class="text-gray-400">Domine os princípios de cor, tipografia e composição que separam os amadores dos profissionais.</p>
-        </div>
-        <div class="text-center p-8 rounded-lg card-pink-gradient transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/20 hover:scale-105">
-          <i data-feather="tool" class="w-12 h-12 text-brand-pink mx-auto mb-4"></i>
-          <h3 class="text-xl font-bold text-white mb-3 font-serif">Domínio das Ferramentas</h3>
-          <p class="text-gray-400">Aprenda o essencial de Corel DRAW, Figma, Canva e Photoshop para criar qualquer projeto.</p>
-        </div>
-        <div class="text-center p-8 rounded-lg card-pink-gradient transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/20 hover:scale-105">
-          <i data-feather="dollar-sign" class="w-12 h-12 text-brand-pink mx-auto mb-4"></i>
-          <h3 class="text-xl font-bold text-white mb-3 font-serif">Como Vender seu Trabalho</h3>
-          <p class="text-gray-400">Descubra como precificar, prospectar clientes e apresentar propostas que fecham negócio.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="conteudo" class="py-20 section-bg-pink-gradient">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-pink mb-4">O Que Você Vai Dominar</h2>
-        <div class="w-24 h-1 bg-brand-pink mx-auto"></div>
-      </div>
-      <div class="grid md:grid-cols-2 gap-x-10 gap-y-8 max-w-4xl mx-auto">
-        <div class="flex items-start space-x-4 p-4 rounded-lg card-pink-gradient">
-          <i data-feather="check-circle" class="text-brand-pink w-6 h-6 mt-1 flex-shrink-0"></i>
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 font-serif">Criar Identidades Visuais Impactantes</h3>
-            <p class="text-gray-400">Aprenda a construir logos e manuais de marca que seus clientes vão amar.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4 p-4 rounded-lg card-pink-gradient">
-          <i data-feather="check-circle" class="text-brand-pink w-6 h-6 mt-1 flex-shrink-0"></i>
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 font-serif">Construir um Portfólio que Vende</h3>
-            <p class="text-gray-400">Saia da mentoria com projetos práticos para montar um portfólio profissional.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4 p-4 rounded-lg card-pink-gradient">
-          <i data-feather="check-circle" class="text-brand-pink w-6 h-6 mt-1 flex-shrink-0"></i>
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 font-serif">Figma e Canva para Agilidade</h3>
-            <p class="text-gray-400">Use as ferramentas mais modernas para criar posts, stories e interfaces de forma rápida.</p>
-          </div>
-        </div>
-        <div class="flex items-start space-x-4 p-4 rounded-lg card-pink-gradient">
-          <i data-feather="check-circle" class="text-brand-pink w-6 h-6 mt-1 flex-shrink-0"></i>
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 font-serif">Photoshop e Corel para Projetos Robustos</h3>
-            <p class="text-gray-400">Domine a manipulação de imagens e a criação de vetores complexos como um expert.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="mentores" class="py-20 section-bg-pink-gradient">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-pink mb-6">Conheça Seus Mentores</h2>
-      </div>
-      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10">
-        <div class="bg-black rounded-lg overflow-hidden shadow-xl card-pink-gradient">
-          <img src="imagens/otavio (1).png" alt="Foto de Otávio Marques" class="w-full h-80 object-cover object-[center_41%]">
-          <div class="p-6">
-            <h3 class="text-2xl font-bold text-white mb-2 font-serif">Otávio Marques</h3>
-            <p class="text-brand-pink text-lg mb-4">Especialista em Marketing & Redes Sociais</p>
-            <p class="text-gray-400 mb-6">Nos últimos 5 anos ajudei mais de 200 marcas/pessoas a se destacarem no digital com conteúdos autênticos, identidades visuais estratégicas e uma boa gestão de trafego pago.</p>
-            <div class="flex space-x-4">
-              <a href="#" class="text-gray-400 hover:text-brand-pink"><i data-feather="linkedin"></i></a>
-              <a href="https://www.instagram.com/otavio_fz" class="text-gray-400 hover:text-brand-pink"><i data-feather="instagram"></i></a>
-            </div>
-          </div>
-        </div>
-        <div class="bg-black rounded-lg overflow-hidden shadow-xl card-pink-gradient">
-          <img src="imagens/theo.jpg" alt="Theo Natan" class="w-full h-80 object-cover object-top">
-          <div class="p-6">
-            <h3 class="text-2xl font-bold text-white mb-2 font-serif">Theo Natan</h3>
-            <p class="text-brand-pink text-lg mb-4">Designer Gráfico & Web Designer</p>
-            <p class="text-gray-400 mb-6">Meu trabalho é transformar ideias em projetos criativos e funcionais, unindo estética, estratégia e usabilidade para entregar soluções visuais que conectam marcas ao seu público de forma clara e impactante.</p>
-            <div class="flex space-x-4">
-              <a href="www.linkedin.com/in/theo-natan-7346a2266" class="text-gray-400 hover:text-brand-pink"><i data-feather="linkedin"></i></a>
-              <a href="https://www.instagram.com/theonatan_" class="text-gray-400 hover:text-brand-pink"><i data-feather="instagram"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-20 section-bg-pink-gradient">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-pink mb-6">O Que Nossos Alunos Dizem</h2>
-        <p class="text-white text-lg max-w-3xl mx-auto">Não somos nós que dizemos, são eles. Veja o impacto da nossa agência.</p>
-      </div>
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-8 rounded-lg card-pink-gradient">
-          <p class="text-white italic mb-6">"Eu não tinha confiança pra cobrar pelos meus trabalhos. Depois da mentoria, fechei meu primeiro cliente por R$1.200! Mudou o jogo pra mim."</p>
-          <p class="text-brand-pink font-bold">— Juliana S., Social Media</p>
+        <div class="glass-card p-8 rounded-2xl reveal-left" style="transition-delay: 0.1s">
+          <div class="w-14 h-14 bg-brand/10 rounded-xl flex items-center justify-center mb-6 border border-brand/20">
+            <i data-feather="layers" class="text-brand w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3 font-display">Fundamentos Sólidos</h3>
+          <p class="text-gray-400 leading-relaxed">Domine composição, tipografia, hierarquia visual e psicologia das cores. Entenda o “porquê” antes do “como” e evolua sua capacidade de criar com intencionalidade, estratégia e clareza.</p>
         </div>
-        <div class="p-8 rounded-lg card-pink-gradient">
-          <p class="text-white italic mb-6">"Saber usar as ferramentas é uma coisa, mas aprender a vender é outra. A parte de negócios foi o que mais valeu a pena. Recomendo 100%!"</p>
-          <p class="text-brand-pink font-bold">— Pedro R., Freelancer</p>
+
+        <div class="glass-card p-8 rounded-2xl reveal" style="transition-delay: 0.2s">
+          <div class="w-14 h-14 bg-brand/10 rounded-xl flex items-center justify-center mb-6 border border-brand/20">
+            <i data-feather="cpu" class="text-brand w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3 font-display">Arsenal de Ferramentas</h3>
+          <p class="text-gray-400 leading-relaxed">Photoshop, CorelDraw, Figma e Canva. Saiba exatamente quando e como usar cada software do mercado.</p>
         </div>
-        <div class="p-8 rounded-lg card-pink-gradient">
-          <p class="text-white italic mb-6">"A didática da Otávio e do Theo é incrível. Aprendi em um dia o que levaria meses sozinho. O suporte e a energia foram fantásticos."</p>
-          <p class="text-brand-pink font-bold">— Carla M., Estudante de Design</p>
+
+        <div class="glass-card p-8 rounded-2xl reveal" style="transition-delay: 0.3s">
+          <div class="w-14 h-14 bg-brand/10 rounded-xl flex items-center justify-center mb-6 border border-brand/20">
+            <i data-feather="trending-up" class="text-brand w-7 h-7"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3 font-display">Business Design</h3>
+          <p class="text-gray-400 leading-relaxed">Design bonito que não vende é arte. Aprenda a precificar, negociar e fechar contratos de alto valor.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="inscricao" class="py-20 section-bg-pink-gradient">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="font-serif text-3xl md:text-5xl font-bold text-brand-pink mb-4">Apenas 10 Vagas Disponíveis!</h2>
-      <p class="text-white text-xl mb-10 max-w-2xl mx-auto">Esta é sua chance de ter o acompanhamento de uma agência real para decolar sua carreira. Não fique de fora.</p>
-
-      <div class="mb-10 text-center">
-        <p class="text-2xl text-white font-serif mb-2">Acesso à Mentoria Completa</p>
-        <p class="text-2xl text-gray-500 line-through">De R$ 999,99</p>
-        <p class="text-lg text-white mt-4 mb-2">POR APENAS:</p>
-        <p class="text-6xl font-bold text-brand-pink animate-flash font-serif tracking-tighter">R$ 399,99</p>
-        <p class="text-white mt-2">ou 3x de R$ 133,33</p>
-      </div>
-      <div class="max-w-xl mx-auto p-8 rounded-lg text-left card-pink-gradient">
-        <form id="inscricao-form">
-          <div class="mb-6">
-            <label for="name" class="block text-white text-sm font-bold mb-2">Nome</label>
-            <input type="text" id="name" name="Nome" class="w-full bg-gray-800 border border-gray-700 text-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-transparent" placeholder="Seu nome completo" required>
-          </div>
-          <div class="mb-6">
-            <label for="email" class="block text-white text-sm font-bold mb-2">Email</label>
-            <input type="email" id="email" name="Email" class="w-full bg-gray-800 border border-gray-700 text-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-transparent" placeholder="seu.email@exemplo.com" required>
-          </div>
-          <div class="mb-8">
-            <label for="phone" class="block text-white text-sm font-bold mb-2">WhatsApp (Opcional)</label>
-            <input type="tel" id="phone" name="WhatsApp" class="w-full bg-gray-800 border border-gray-700 text-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-transparent" placeholder="(XX) 99999-9999">
-          </div>
-          <button type="submit" class="group relative w-full px-8 py-4 rounded-full text-white font-bold text-lg border-4 border-brand-pink bg-brand-pink animate-pulse-custom transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_0_20px_#D81B60] overflow-hidden cursor-pointer">Quero Garantir Minha Vaga!</button>
-        </form>
-        <div id="form-status" class="mt-4 text-center"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq" class="py-20 section-bg-pink-gradient">
+  <section id="conteudo" class="py-24 relative bg-dark-card/50 border-y border-white/5">
     <div class="container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-pink mb-6">Perguntas Frequentes</h2>
+      <div class="flex flex-col md:flex-row gap-16 items-center">
+
+        <div class="md:w-1/2 reveal-left">
+          <h2 class="font-display text-3xl md:text-5xl font-bold mb-6">O Que Você Vai <span class="text-brand">Dominar</span></h2>
+          <p class="text-gray-400 text-lg mb-8">Um currículo desenhado para eliminar a lacuna entre o amador e o profissional requisitado.</p>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4 group">
+              <div class="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center group-hover:bg-brand transition-colors mt-1">
+                <i data-feather="check" class="w-4 h-4 text-brand group-hover:text-white"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-lg">Identidade Visual</h4>
+                <p class="text-gray-500 text-sm">Logos, manuais e branding completo.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 group">
+              <div class="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center group-hover:bg-brand transition-colors mt-1">
+                <i data-feather="check" class="w-4 h-4 text-brand group-hover:text-white"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-lg">Social Media Design</h4>
+                <p class="text-gray-500 text-sm">Posts que engajam e convertem.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 group">
+              <div class="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center group-hover:bg-brand transition-colors mt=1">
+                <i data-feather="check" class="w-4 h-4 text-brand group-hover:text-white"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-lg">UI/UX Básico</h4>
+                <p class="text-gray-500 text-sm">Interfaces limpas e funcionais no Figma.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 group">
+              <div class="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center group-hover:bg-brand transition-colors mt-1">
+                <i data-feather="check" class="w-4 h-4 text-brand group-hover:text-white"></i>
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-lg">Vendas & Prospecção</h4>
+                <p class="text-gray-500 text-sm">Como conseguir e manter clientes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:w-1/2 w-full reveal">
+          <div class="relative">
+            <div class="absolute inset-0 bg-brand blur-[60px] opacity-20"></div>
+            <div class="glass-card p-6 rounded-2xl border border-white/10 relative z-10">
+              <h3 class="text-xl font-bold text-white mb-6 text-center">Ferramentas que você vai dominar</h3>
+              <div class="grid grid-cols-2 gap-6">
+                <div class="flex flex-col items-center justify-center">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Figma-logo.svg/1365px-Figma-logo.svg.png" alt="Figma" class="tool-logo mb-2">
+                  <span class="text-gray-400 text-sm">Figma</span>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                  <img src="https://static.vecteezy.com/system/resources/previews/020/964/384/non_2x/corel-draw-circle-icon-for-web-design-free-png.png" alt="Corel Draw" class="tool-logo mb-2">
+                  <span class="text-gray-400 text-sm">Corel Draw</span>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                  <img src="https://freelogopng.com/images/all_img/1656734305canva-app-icon.png" alt="Canva" class="tool-logo mb-2">
+                  <span class="text-gray-400 text-sm">Canva</span>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                  <img src="https://cdn.worldvectorlogo.com/logos/adobe-photoshop-2.svg" alt="Photoshop" class="tool-logo mb-2">
+                  <span class="text-gray-400 text-sm">Photoshop</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="max-w-3xl mx-auto space-y-4">
-
-        <div class="faq-item border border-gray-800 rounded-lg overflow-hidden">
-          <div class="faq-question flex justify-between items-center p-6 cursor-pointer hover:bg-gray-900/50">
-            <h3 class="text-xl font-bold text-white font-serif">Preciso ter experiência prévia em design?</h3>
-            <div class="text-brand-pink">
-              <i class="icon-plus" data-feather="plus"></i>
-              <i class="icon-minus hidden" data-feather="minus"></i>
-            </div>
-          </div>
-          <div class="faq-answer">
-            <p class="text-gray-400 px-6 pb-6">Não! A mentoria foi desenhada "Do Zero ao Pro". Vamos cobrir desde os fundamentos essenciais até as técnicas avançadas de venda e ferramentas.</p>
-          </div>
-        </div>
-
-        <div class="faq-item border border-gray-800 rounded-lg overflow-hidden">
-          <div class="faq-question flex justify-between items-center p-6 cursor-pointer hover:bg-gray-900/50">
-            <h3 class="text-xl font-bold text-white font-serif">Preciso ter os programas instalados?</h3>
-            <div class="text-brand-pink">
-              <i class="icon-plus" data-feather="plus"></i>
-              <i class="icon-minus hidden" data-feather="minus"></i>
-            </div>
-          </div>
-          <div class="faq-answer">
-            <p class="text-gray-400 px-6 pb-6">É altamente recomendado. Para Figma e Canva, basta uma conta gratuita. Para Photoshop e Corel DRAW, você pode usar as versões de avaliação (trials) que os próprios fabricantes oferecem.</p>
-          </div>
-        </div>
-
-        <div class="faq-item border border-gray-800 rounded-lg overflow-hidden">
-          <div class="faq-question flex justify-between items-center p-6 cursor-pointer hover:bg-gray-900/50">
-            <h3 class="text-xl font-bold text-white font-serif">A mentoria é online ou presencial?</h3>
-            <div class="text-brand-pink">
-              <i class="icon-plus" data-feather="plus"></i>
-              <i class="icon-minus hidden" data-feather="minus"></i>
-            </div>
-          </div>
-          <div class="faq-answer">
-            <p class="text-gray-400 px-6 pb-6">A mentoria será 100% online, ao vivo, permitindo que você participe de qualquer lugar do mundo. O link de acesso será enviado um dia antes do evento.</p>
-          </div>
-        </div>
-
-        <div class="faq-item border border-gray-800 rounded-lg overflow-hidden">
-          <div class="faq-question flex justify-between items-center p-6 cursor-pointer hover:bg-gray-900/50">
-            <h3 class="text-xl font-bold text-white font-serif">Vou receber um certificado?</h3>
-            <div class="text-brand-pink">
-              <i class="icon-plus" data-feather="plus"></i>
-              <i class="icon-minus hidden" data-feather="minus"></i>
-            </div>
-          </div>
-          <div class="faq-answer">
-            <p class="text-gray-400 px-6 pb-6">Sim! Todos os participantes que completarem a imersão receberão um certificado digital de conclusão da Flux Agency, perfeito para adicionar ao seu LinkedIn.</p>
-          </div>
-        </div>
-      </div>
-    </div>
     </div>
   </section>
 
-  <footer class="bg-black py-12 border-t border-gray-800">
+  <section id="mentores" class="py-24">
     <div class="container mx-auto px-6">
-      <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-        <div class="mb-6 md:mb-0">
-          <div class="flex items-center justify-center md:justify-start">
-            <img src="imagens/FLUX AGENCY.png" alt="Logo Flux Agency" class="h-10 w-auto">
+      <div class="text-center mb-16 reveal">
+        <span class="text-brand font-bold tracking-widest uppercase text-sm">Experts</span>
+        <h2 class="font-display text-4xl font-bold mt-2">Quem vai te guiar</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div class="group relative reveal-left">
+          <div class="absolute inset-0 bg-gradient-to-b from-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 rounded-2xl -z-10 blur-xl"></div>
+          <div class="glass-card rounded-2xl overflow-hidden h-full">
+            <div class="h-64 overflow-hidden relative">
+              <img src="imagens/otavio (1).png" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=60'" alt="Otávio Marques" class="w-full h-full object-cover object-[0_37%] transition transform duration-700 group-hover:scale-110">
+
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-card to-transparent"></div>
+            </div>
+            <div class="p-8 relative">
+              <div class="absolute -top-8 right-8 bg-brand w-16 h-16 flex items-center justify-center rounded-full shadow-lg border-4 border-dark-card">
+                <i data-feather="trending-up" class="text-white w-8 h-8"></i>
+              </div>
+              <h3 class="text-2xl font-bold font-display text-white">Otávio Marques</h3>
+              <p class="text-brand font-medium mb-4">Especialista em Marketing & Redes Sociais</p>
+              <p class="text-gray-400 text-sm leading-relaxed mb-6">Nos últimos 5 anos ajudei mais de 200 marcas/pessoas a se destacarem no digital com conteúdos autênticos, identidades visuais estratégicas e uma boa gestão de trafego pago.</p>
+              <div class="flex gap-4">
+                <a href="#" class="text-gray-500 hover:text-white transition"><i data-feather="instagram"></i></a>
+                <a href="#" class="text-gray-500 hover:text-white transition"><i data-feather="linkedin"></i></a>
+              </div>
+            </div>
           </div>
-          <p class="text-gray-500 mt-2">Mentoria Full Design | 25 de Outubro de 2025</p>
         </div>
-        <div class="flex space-x-6 mb-6 md:mb-0">
-          <a href="#" class="text-gray-500 hover:text-brand-pink"><i data-feather="mail"></i></a>
-          <a href="#" class="text-gray-500 hover:text-brand-pink"><i data-feather="linkedin"></i></a>
-          <a href="https://www.instagram.com/agency_flux" class="text-gray-500 hover:text-brand-pink"><i data-feather="instagram"></i></a>
+
+        <div class="group relative reveal">
+          <div class="absolute inset-0 bg-gradient-to-b from-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 rounded-2xl -z-10 blur-xl"></div>
+          <div class="glass-card rounded-2xl overflow-hidden h-full">
+            <div class="h-64 overflow-hidden relative">
+              <img src="imagens/theo.jpg" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60'" alt="Theo Natan" class="w-full h-full object-cover object-top transition transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-card to-transparent"></div>
+            </div>
+            <div class="p-8 relative">
+              <div class="absolute -top-8 right-8 bg-brand w-16 h-16 flex items-center justify-center rounded-full shadow-lg border-4 border-dark-card">
+                <i data-feather="pen-tool" class="text-white w-8 h-8"></i>
+              </div>
+              <h3 class="text-2xl font-bold font-display text-white">Theo Natan</h3>
+              <p class="text-brand font-medium mb-4">Designer Gráfico & Web Designer</p>
+              <p class="text-gray-400 text-sm leading-relaxed mb-6">Meu trabalho é transformar ideias em projetos criativos e funcionais, unindo estética, estratégia e usabilidade para entregar soluções visuais que conectam marcas ao seu público de forma clara e impactante.</p>
+              <div class="flex gap-4">
+                <a href="https://www.instagram.com/theonatan_" class="text-gray-500 hover:text-white transition"><i data-feather="instagram"></i></a>
+                <a href="www.linkedin.com/in/theo-natan-7346a2266" class="text-gray-500 hover:text-white transition"><i data-feather="linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="text-gray-500 text-sm">
-          © 2025 Flux Agency. Todos os direitos reservados.
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 border-y border-white/5 bg-white/5 backdrop-blur-sm">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="reveal text-center">
+          <div class="text-brand text-4xl font-bold font-display mb-2">+200</div>
+          <p class="text-gray-400">Projetos Entregues</p>
         </div>
+        <div class="reveal text-center" style="transition-delay: 0.1s">
+          <div class="text-brand text-4xl font-bold font-display mb-2">5 Estrelas</div>
+          <p class="text-gray-400">Avaliação Média</p>
+        </div>
+        <div class="reveal text-center" style="transition-delay: 0.2s">
+          <div class="text-brand text-4xl font-bold font-display mb-2">R$ 10k+</div>
+          <p class="text-gray-400">Gerados pelos alunos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inscricao" class="py-32 relative overflow-hidden">
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand blur-[120px] opacity-20 z-0"></div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-4xl mx-auto glass-card rounded-3xl border border-brand/30 shadow-[0_0_50px_-10px_rgba(216,27,96,0.3)] overflow-hidden reveal">
+        <div class="grid md:grid-cols-2">
+
+          <div class="p-10 flex flex-col justify-center relative bg-black/40">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand to-transparent"></div>
+            <h3 class="text-2xl font-bold text-white mb-2">Passe Full Design</h3>
+            <p class="text-gray-400 text-sm mb-8">Acesso total à mentoria + Bônus</p>
+
+            <div class="mb-8">
+              <p class="text-gray-500 line-through text-lg">R$ 999,99</p>
+              <div class="flex items-end gap-2">
+                <span class="text-5xl font-bold text-white tracking-tighter">R$ 399</span>
+                <span class="text-brand text-xl font-bold mb-2">,99</span>
+              </div>
+              <p class="text-gray-400 text-sm mt-2">ou 3x de R$ 133,33</p>
+            </div>
+
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center gap-3 text-gray-300 text-sm"><i data-feather="check-circle" class="text-brand w-4 h-4"></i> Acesso ao vivo e gravado</li>
+              <li class="flex items-center gap-3 text-gray-300 text-sm"><i data-feather="check-circle" class="text-brand w-4 h-4"></i> Pack de Artes Editáveis</li>
+              <li class="flex items-center gap-3 text-gray-300 text-sm"><i data-feather="check-circle" class="text-brand w-4 h-4"></i> Certificado Flux Agency</li>
+              <li class="flex items-center gap-3 text-gray-300 text-sm"><i data-feather="check-circle" class="text-brand w-4 h-4"></i> Grupo de Networking VIP</li>
+            </ul>
+          </div>
+
+          <div class="p-10 bg-dark-surface border-l border-white/5">
+            <h4 class="text-white font-bold mb-6">Garanta sua vaga agora</h4>
+            <form id="inscricao-form" class="space-y-4">
+              <div>
+                <label for="name" class="block text-xs font-bold text-gray-500 uppercase mb-1">Nome Completo</label>
+                <input type="text" id="name" class="w-full bg-dark-bg border border-gray-700 rounded-lg p-3 text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition" placeholder="Seu nome" required>
+              </div>
+              <div>
+                <label for="email" class="block text-xs font-bold text-gray-500 uppercase mb-1">Melhor E-mail</label>
+                <input type="email" id="email" class="w-full bg-dark-bg border border-gray-700 rounded-lg p-3 text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition" placeholder="seu@email.com" required>
+              </div>
+              <div>
+                <label for="phone" class="block text-xs font-bold text-gray-500 uppercase mb-1">WhatsApp</label>
+                <input type="tel" id="phone" class="w-full bg-dark-bg border border-gray-700 rounded-lg p-3 text-white focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand transition" placeholder="(XX) 99999-9999">
+              </div>
+              <button type="submit" class="w-full py-4 mt-2 bg-brand hover:bg-brand-dark text-white font-bold rounded-lg shadow-lg shadow-brand/20 hover:shadow-brand/40 transition-all transform hover:-translate-y-1">
+                FINALIZAR INSCRIÇÃO
+              </button>
+            </form>
+            <div id="form-status" class="mt-4 text-center text-sm"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="py-24">
+    <div class="container mx-auto px-6 max-w-3xl">
+      <div class="text-center mb-16 reveal">
+        <h2 class="font-display text-3xl font-bold">Dúvidas Frequentes</h2>
+      </div>
+
+      <div class="space-y-4 reveal">
+        <!-- FAQ 1 -->
+        <div class="glass rounded-lg overflow-hidden">
+          <button class="faq-btn w-full flex justify-between items-center p-6 text-left focus:outline-none hover:bg-white/5 transition">
+            <span class="font-bold text-white">Preciso ter experiência prévia em design?</span>
+            <i data-feather="chevron-down" class="text-brand transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+            <p class="p-6 pt-0 text-gray-400 text-sm">Não! A mentoria foi desenhada "Do Zero ao Pro". Vamos cobrir desde os fundamentos essenciais até as técnicas avançadas de venda e ferramentas.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="glass rounded-lg overflow-hidden">
+          <button class="faq-btn w-full flex justify-between items-center p-6 text-left focus:outline-none hover:bg-white/5 transition">
+            <span class="font-bold text-white">Preciso ter os programas instalados?</span>
+            <i data-feather="chevron-down" class="text-brand transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+            <p class="p-6 pt-0 text-gray-400 text-sm">É altamente recomendado. Para Figma e Canva, basta uma conta gratuita. Para Photoshop e Corel DRAW, você pode usar as versões de avaliação (trials) que os próprios fabricantes oferecem.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="glass rounded-lg overflow-hidden">
+          <button class="faq-btn w-full flex justify-between items-center p-6 text-left focus:outline-none hover:bg-white/5 transition">
+            <span class="font-bold text-white">A mentoria é online ou presencial?</span>
+            <i data-feather="chevron-down" class="text-brand transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+            <p class="p-6 pt-0 text-gray-400 text-sm">A mentoria será 100% online, ao vivo, permitindo que você participe de qualquer lugar do mundo. O link de acesso será enviado um dia antes do evento.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="glass rounded-lg overflow-hidden">
+          <button class="faq-btn w-full flex justify-between items-center p-6 text-left focus:outline-none hover:bg-white/5 transition">
+            <span class="font-bold text-white">Vou receber um certificado?</span>
+            <i data-feather="chevron-down" class="text-brand transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+            <p class="p-6 pt-0 text-gray-400 text-sm">Sim! Todos os participantes que completarem a imersão receberão um certificado digital de conclusão da Flux Agency, perfeito para adicionar ao seu LinkedIn.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="glass rounded-lg overflow-hidden">
+          <button class="faq-btn w-full flex justify-between items-center p-6 text-left focus:outline-none hover:bg-white/5 transition">
+            <span class="font-bold text-white">Como funciona o suporte?</span>
+            <i data-feather="chevron-down" class="text-brand transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+            <p class="p-6 pt-0 text-gray-400 text-sm">Você terá acesso a um grupo exclusivo no WhatsApp com os mentores e outros alunos para tirar dúvidas a qualquer momento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-black border-t border-white/10 py-12">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-2">
+        <img src="imagens/FLUX AGENCY.png" alt="Flux Agency" class="h-8 w-auto grayscale hover:grayscale-0 transition opacity-70 hover:opacity-100">
+      </div>
+      <p class="text-gray-600 text-sm">© 2025 Flux Agency. Design with purpose.</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-gray-600 hover:text-brand transition"><i data-feather="instagram" class="w-5 h-5"></i></a>
+        <a href="#" class="text-gray-600 hover:text-brand transition"><i data-feather="linkedin" class="w-5 h-5"></i></a>
+        <a href="#" class="text-gray-600 hover:text-brand transition"><i data-feather="mail" class="w-5 h-5"></i></a>
       </div>
     </div>
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const countdownEl = document.getElementById('countdown');
-      if (countdownEl) {
-        const eventDate = new Date('October 25, 2025 09:00:00').getTime();
-        const countdownInterval = setInterval(() => {
-          const now = new Date().getTime();
-          const distance = eventDate - now;
+    // Initialize Feather Icons
+    feather.replace();
 
-          if (distance < 0) {
-            clearInterval(countdownInterval);
-            countdownEl.innerHTML = "EVENTO ENCERRADO";
-            return;
+    // --- 1. NETWORK CANVAS ANIMATION (PROFESSIONAL BACKGROUND) ---
+    const canvas = document.getElementById('network-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    // Configuration - Aumentando a visibilidade
+    const particleCount = window.innerWidth < 768 ? 60 : 120; // Mais partículas
+    const connectionDistance = 160; // Maior distância de conexão
+    const mouseDistance = 200;
+
+    // Mouse tracking
+    let mouse = { x: null, y: null };
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+
+    window.addEventListener('resize', resize);
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1; // Partículas maiores
+        // Cor das partículas mais visível
+        this.color = 'rgba(216, 27, 96, 0.7)';
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off edges
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        // Mouse interaction
+        if (mouse.x != null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < mouseDistance) {
+            const forceDirectionX = dx / distance;
+            const forceDirectionY = dy / distance;
+            const force = (mouseDistance - distance) / mouseDistance;
+            const directionX = forceDirectionX * force * 0.6;
+            const directionY = forceDirectionY * force * 0.6;
+            this.vx += directionX;
+            this.vy += directionY;
           }
-
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-          countdownEl.innerHTML = `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
-        }, 1000);
+        }
       }
 
-      const mobileMenuButton = document.getElementById('mobile-menu-button');
-      const mobileMenu = document.getElementById('mobile-menu');
-      if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', function () {
-          mobileMenu.classList.toggle('hidden');
-        });
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
       }
+    }
 
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-          });
-        });
-      });
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
 
-      const faqItems = document.querySelectorAll('.faq-item');
-      faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-          const answer = item.querySelector('.faq-answer');
-          const iconPlus = item.querySelector('.icon-plus');
-          const iconMinus = item.querySelector('.icon-minus');
-          const isVisible = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
 
-          faqItems.forEach(otherItem => {
-            if (otherItem !== item) {
-              otherItem.querySelector('.faq-answer').style.maxHeight = '0px';
-              otherItem.querySelector('.icon-plus').classList.remove('hidden');
-              otherItem.querySelector('.icon-minus').classList.add('hidden');
-            }
-          });
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
 
-          if (isVisible) {
-            answer.style.maxHeight = '0px';
-            iconPlus.classList.remove('hidden');
-            iconMinus.classList.add('hidden');
-          } else {
-            answer.style.maxHeight = answer.scrollHeight + 'px';
-            iconPlus.classList.add('hidden');
-            iconMinus.classList.remove('hidden');
+        // Draw connections - mais visíveis
+        for (let j = i; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance) {
+            ctx.beginPath();
+            // Cor das linhas mais visível
+            let opacity = 1 - (distance / connectionDistance);
+            ctx.strokeStyle = 'rgba(216, 27, 96, ' + (opacity * 0.4) + ')';
+            ctx.lineWidth = 1.5; // Linhas mais grossas
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
           }
-        });
-      });
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
 
-      const form = document.getElementById('inscricao-form');
-      if (form) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          const nome = document.getElementById('name').value;
-          const email = document.getElementById('email').value;
-          const telefone = '5588996754794';
-          const mensagem = `*MEU NOME É:* ${nome}, *DO E-MAIL:* ${email}, E GOSTARIA DE GARANTIR MINHA VAGA NA MENTORIA FULL DESIGN`;
-          const mensagemCodificada = encodeURIComponent(mensagem);
-          const urlWhatsApp = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
-          window.open(urlWhatsApp, '_blank');
-          const formStatus = document.getElementById('form-status');
-          formStatus.innerHTML = '<p class="text-green-400">Redirecionando para o WhatsApp...</p>';
-          form.reset();
-        });
+    resize();
+    initParticles();
+    animateParticles();
+
+    // --- 2. SCROLL REVEAL (ANIMAÇÃO AO DESCER) ---
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target); // Animar apenas uma vez
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal, .reveal-left').forEach(el => {
+      observer.observe(el);
+    });
+
+    // --- 3. COUNTDOWN TIMER ---
+    const eventDate = new Date('October 25, 2025 09:00:00').getTime();
+    const countdownEl = document.getElementById('countdown');
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+
+      if (distance < 0) {
+        countdownEl.innerHTML = "INSCRIÇÕES ENCERRADAS";
+        return;
       }
 
-      feather.replace();
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.innerHTML = `${d}d : ${h}h : ${m}m : ${s}s`;
+    }, 1000);
+
+    // --- 4. ACCORDION LOGIC (FAQ) ---
+    document.querySelectorAll('.faq-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('i');
+
+        // Toggle current
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          // Close others
+          document.querySelectorAll('.faq-content').forEach(c => c.style.maxHeight = null);
+          document.querySelectorAll('.faq-btn i').forEach(i => i.style.transform = 'rotate(0deg)');
+
+          content.style.maxHeight = content.scrollHeight + "px";
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // --- 5. MOBILE MENU ---
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // --- 6. FORM WHATSAPP ---
+    document.getElementById('inscricao-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nome = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      const text = `Ola, me chamo *${nome}* (${email}).\nGostaria de garantir minha vaga na Mentoria Full Design!`;
+      const encodedText = encodeURIComponent(text);
+
+      // Simulação de envio visual
+      const btn = this.querySelector('button');
+      const originalText = btn.innerText;
+      btn.innerText = "Redirecionando...";
+      btn.classList.add('opacity-75');
+
+      setTimeout(() => {
+        window.open(`https://wa.me/5588996754794?text=${encodedText}`, '_blank');
+        btn.innerText = originalText;
+        btn.classList.remove('opacity-75');
+        this.reset();
+      }, 1000);
     });
   </script>
-
 </body>
 
 </html>
