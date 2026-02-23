@@ -4,10 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Mentorias Flux | Design + Tráfego</title>
+  <title>Workshops Flux | Design + Tráfego</title>
   <link rel="shortcut icon" href="imagens/FLUX AGENCY ROSA.png" type="image/x-icon">
 
-  <!-- Fontes: Outfit + Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -31,7 +30,6 @@
           animation: {
             'blob': 'blob 7s infinite',
             'gradient-flow': 'gradientFlow 4s linear infinite',
-            'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
           },
           keyframes: {
             blob: {
@@ -44,10 +42,6 @@
               '0%': { backgroundPosition: '0% 50%' },
               '50%': { backgroundPosition: '100% 50%' },
               '100%': { backgroundPosition: '0% 50%' }
-            },
-            pulseGlow: {
-              '0%,100%': { transform: 'scale(1)', 'box-shadow': '0 0 20px rgba(216,27,96,0.4), 0 0 40px rgba(216,27,96,0.2)' },
-              '50%': { transform: 'scale(1.05)', 'box-shadow': '0 0 30px rgba(216,27,96,0.6), 0 0 60px rgba(216,27,96,0.4)' }
             }
           }
         }
@@ -172,16 +166,41 @@
       opacity: 0.4;
     }
 
+    /* ========== BOTÕES PULSANTES (CORRIGIDO) ========== */
+    @keyframes hardcorePulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(216, 27, 96, 0.8);
+        filter: brightness(1);
+      }
+
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 25px 15px rgba(216, 27, 96, 0.2);
+        filter: brightness(1.3);
+        /* Faz o botão dar uma "piscada" mais clara */
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(216, 27, 96, 0);
+        filter: brightness(1);
+      }
+    }
+
     .pulse-button {
-      position: relative;
-      animation: pulseGlow 2s ease-in-out infinite;
-      transition: all 0.3s ease;
+      animation: hardcorePulse 1.8s infinite ease-in-out !important;
+      will-change: transform, box-shadow, filter;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .pulse-button:hover {
-      animation: none;
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(216, 27, 96, 0.4), 0 0 60px rgba(216, 27, 96, 0.3);
+      animation: none !important;
+      transform: scale(1.1) translateY(-3px) !important;
+      filter: brightness(1.2) !important;
+      box-shadow: 0 15px 30px rgba(216, 27, 96, 0.6) !important;
     }
 
     ::selection {
@@ -224,7 +243,6 @@
     .logo-carousel-track {
       display: flex;
       width: max-content;
-      /* 4 cópias completas → deslocamento de -25% para loop infinito perfeito */
       animation: scrollLeft 17s linear infinite;
     }
 
@@ -277,8 +295,6 @@
 
     /* ========== CORREÇÕES EXCLUSIVAS PARA MOBILE ========== */
     @media (max-width: 767px) {
-
-      /* CARROSSEL: espaçamento menor e logos menores */
       .logo-item {
         padding: 0 20px;
       }
@@ -287,24 +303,20 @@
         height: 40px;
       }
 
-      /* REMOVE ESCALA EXAGERADA DO CARD DESTAQUE NO MOBILE */
       .card-full-performance {
         transform: scale(1) !important;
         animation: softPulse 2.5s infinite;
       }
 
-      /* AJUSTE NO TÍTULO HERO */
       .hero-title {
         font-size: 2.8rem;
         line-height: 1.1;
       }
 
-      /* GARANTE QUE NENHUM CARD ULTRAPASSE A TELA */
       .card-interactive {
         max-width: 100%;
       }
 
-      /* PREÇO DO FULL PERFORMANCE NÃO QUEBRA */
       .preco-full {
         display: flex;
         flex-wrap: wrap;
@@ -314,7 +326,6 @@
       }
     }
 
-    /* CORREÇÃO EXTRA: SELO "MELHOR ESCOLHA" NÃO QUEBRA */
     .melhor-escolha-badge {
       white-space: nowrap;
     }
@@ -453,7 +464,6 @@
       text-transform: uppercase;
     }
 
-    /* Cores por produto */
     .notification.notification-design {
       border-left-color: #D81B60;
     }
@@ -498,7 +508,6 @@
       background-clip: text;
     }
 
-    /* Ajustes mobile */
     @media (max-width: 640px) {
       #notification-container {
         max-width: 300px;
@@ -523,10 +532,8 @@
 
   <div id="canvas-container"><canvas id="network-canvas"></canvas></div>
 
-  <!-- CONTAINER DAS NOTIFICAÇÕES -->
   <div id="notification-container"></div>
 
-  <!-- NAVBAR -->
   <nav class="fixed w-full z-50 top-0 transition-all duration-300 glass border-b border-white/5" id="navbar">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center gap-2">
@@ -536,14 +543,14 @@
         </div>
       </div>
       <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
-        <a href="#sobre" class="hover:text-pink transition-colors duration-300">A MENTORIA</a>
+        <a href="#sobre" class="hover:text-pink transition-colors duration-300">O WORKSHOP</a>
         <a href="#trilhas" class="hover:text-pink transition-colors duration-300">TRILHAS</a>
         <a href="#planos" class="hover:text-pink transition-colors duration-300">PLANOS</a>
         <a href="#mentores" class="hover:text-pink transition-colors duration-300">MENTORES</a>
         <a href="#faq" class="hover:text-pink transition-colors duration-300">FAQ</a>
-        <a href="#planos" class="relative px-6 py-2 group overflow-hidden rounded-full bg-transparent border border-pink text-pink font-semibold transition-all hover:text-white">
+        <a href="#planos" class="pulse-button relative px-6 py-2 group overflow-hidden rounded-full bg-transparent border border-pink text-pink font-semibold transition-all hover:text-white">
           <span class="absolute w-0 h-full transition-all duration-300 ease-out bg-gradient-to-r from-pink to-blue group-hover:w-full left-0 top-0"></span>
-          <span class="relative flex items-center gap-1"><i data-feather="zap" class="w-4 h-4"></i> GARANTIR VAGA</span>
+          <span class="relative flex items-center gap-1 z-10"><i data-feather="zap" class="w-4 h-4"></i> GARANTIR VAGA</span>
         </a>
       </div>
       <button class="md:hidden text-white hover:text-pink focus:outline-none transition relative z-50" id="mobile-menu-btn">
@@ -552,17 +559,16 @@
     </div>
     <div class="md:hidden hidden glass border-t border-white/10 absolute w-full" id="mobile-menu">
       <div class="flex flex-col p-6 space-y-4 text-center">
-        <a href="#sobre" class="text-gray-300 hover:text-pink py-2 mobile-link">A MENTORIA</a>
+        <a href="#sobre" class="text-gray-300 hover:text-pink py-2 mobile-link">O WORKSHOP</a>
         <a href="#trilhas" class="text-gray-300 hover:text-pink py-2 mobile-link">TRILHAS</a>
         <a href="#planos" class="text-gray-300 hover:text-pink py-2 mobile-link">PLANOS</a>
         <a href="#mentores" class="text-gray-300 hover:text-pink py-2 mobile-link">MENTORES</a>
         <a href="#faq" class="text-gray-300 hover:text-pink py-2 mobile-link">FAQ</a>
-        <a href="#planos" class="bg-gradient-to-r from-pink to-blue text-white py-3 rounded-lg font-bold shadow-lg mobile-link">GARANTIR VAGA</a>
+        <a href="#planos" class="pulse-button bg-gradient-to-r from-pink to-blue text-white py-3 rounded-lg font-bold shadow-lg mobile-link">GARANTIR VAGA</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
   <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
     <div class="gradient-orb w-[500px] h-[500px] bg-pink/20 top-20 -left-40 animate-blob"></div>
     <div class="gradient-orb w-[500px] h-[500px] bg-blue/20 bottom-20 -right-40 animate-blob" style="animation-delay: 3s"></div>
@@ -581,13 +587,12 @@
       <div class="flex flex-col md:flex-row justify-center gap-6 reveal">
         <a href="#planos" class="pulse-button group relative px-8 py-4 bg-gradient-to-r from-pink to-blue rounded-full text-white font-bold text-lg tracking-wide overflow-hidden shadow-2xl shadow-pink/30">
           <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-          <span class="relative flex items-center gap-2"><i data-feather="target" class="w-5 h-5"></i> QUERO ME TORNAR PRO <i data-feather="arrow-right" class="w-5 h-5"></i></span>
+          <span class="relative flex items-center gap-2 z-10"><i data-feather="target" class="w-5 h-5"></i> QUERO ME TORNAR PRO <i data-feather="arrow-right" class="w-5 h-5"></i></span>
         </a>
-        <a href="#sobre" class="px-8 py-4 rounded-full border border-white/20 hover:border-pink hover:text-pink transition-all font-medium text-lg glass">
+        <a href="#sobre" class="pulse-button px-8 py-4 rounded-full border border-white/20 hover:border-pink hover:text-pink transition-all font-medium text-lg glass">
           <i data-feather="play-circle" class="inline w-5 h-5 mr-2"></i> Saiba Mais
         </a>
       </div>
-      <!-- DATA FIXA 21/06/2026 -->
       <div class="mt-16 font-display text-xl reveal">
         <div class="glass inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 rounded-2xl border border-pink/30 shadow-[0_0_30px_-5px_rgba(216,27,96,0.3)]">
           <i data-feather="calendar" class="text-pink w-6 h-6"></i>
@@ -598,31 +603,26 @@
     </div>
   </section>
 
-  <!-- CARROSSEL PREMIUM - LOOP INFINITO PERFEITO (4 CÓPIAS) -->
   <div class="logo-carousel-wrapper">
     <div class="logo-carousel-track">
-      <!-- CÓPIA 1 -->
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma"></div>
       <div class="logo-item"><img src="https://logo-teka.com/wp-content/uploads/2025/09/canva-icon-logo.png" alt="Canva" onerror="this.src='https://cdn.simpleicons.org/canva'"></div>
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/500px-Adobe_Photoshop_CC_icon.svg.png" alt="Photoshop" onerror="this.src='https://cdn.simpleicons.org/photoshop'"></div>
       <div class="logo-item"><img src="https://brandlogos.net/wp-content/uploads/2025/03/coreldraw-logo_brandlogos.net_96dfz-512x512.png" alt="Corel Draw" onerror="this.src='https://cdn.simpleicons.org/coreldraw'"></div>
       <div class="logo-item"><img src="https://cdn.simpleicons.org/meta" alt="Meta"></div>
       <div class="logo-item"><img src="https://cdn.simpleicons.org/googleads" alt="Google Ads"></div>
-      <!-- CÓPIA 2 -->
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma"></div>
       <div class="logo-item"><img src="https://logo-teka.com/wp-content/uploads/2025/09/canva-icon-logo.png" alt="Canva" onerror="this.src='https://cdn.simpleicons.org/canva'"></div>
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/500px-Adobe_Photoshop_CC_icon.svg.png" alt="Photoshop" onerror="this.src='https://cdn.simpleicons.org/photoshop'"></div>
       <div class="logo-item"><img src="https://brandlogos.net/wp-content/uploads/2025/03/coreldraw-logo_brandlogos.net_96dfz-512x512.png" alt="Corel Draw" onerror="this.src='https://cdn.simpleicons.org/coreldraw'"></div>
       <div class="logo-item"><img src="https://cdn.simpleicons.org/meta" alt="Meta"></div>
       <div class="logo-item"><img src="https://cdn.simpleicons.org/googleads" alt="Google Ads"></div>
-      <!-- CÓPIA 3 -->
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma"></div>
       <div class="logo-item"><img src="https://logo-teka.com/wp-content/uploads/2025/09/canva-icon-logo.png" alt="Canva" onerror="this.src='https://cdn.simpleicons.org/canva'"></div>
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/500px-Adobe_Photoshop_CC_icon.svg.png" alt="Photoshop" onerror="this.src='https://cdn.simpleicons.org/photoshop'"></div>
       <div class="logo-item"><img src="https://brandlogos.net/wp-content/uploads/2025/03/coreldraw-logo_brandlogos.net_96dfz-512x512.png" alt="Corel Draw" onerror="this.src='https://cdn.simpleicons.org/coreldraw'"></div>
       <div class="logo-item"><img src="https://cdn.simpleicons.org/meta" alt="Meta"></div>
       <div class="logo-item"><img src="https://cdn.simpleicons.org/googleads" alt="Google Ads"></div>
-      <!-- CÓPIA 4 -->
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma"></div>
       <div class="logo-item"><img src="https://logo-teka.com/wp-content/uploads/2025/09/canva-icon-logo.png" alt="Canva" onerror="this.src='https://cdn.simpleicons.org/canva'"></div>
       <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/500px-Adobe_Photoshop_CC_icon.svg.png" alt="Photoshop" onerror="this.src='https://cdn.simpleicons.org/photoshop'"></div>
@@ -632,12 +632,11 @@
     </div>
   </div>
 
-  <!-- SOBRE -->
   <section id="sobre" class="py-24 relative">
     <div class="container mx-auto px-6">
       <div class="text-center mb-20 reveal">
         <span class="text-pink font-bold tracking-widest uppercase text-sm border border-pink/30 px-4 py-1.5 rounded-full inline-block mb-4"><i data-feather="info" class="inline w-4 h-4 mr-1"></i> POR QUE A FLUX?</span>
-        <h2 class="font-display text-3xl md:text-5xl font-bold mb-6">Não é apenas uma mentoria.<br>É um <span class="bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent">Atalho.</span></h2>
+        <h2 class="font-display text-3xl md:text-5xl font-bold mb-6">Não é apenas um workshop.<br>É um <span class="bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent">Atalho.</span></h2>
         <p class="text-gray-400 max-w-2xl mx-auto text-lg">Chega de tutoriais soltos. Aqui você aprende a lógica, a técnica e o negócio.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
@@ -646,36 +645,34 @@
             <i data-feather="layers" class="text-pink w-8 h-8"></i>
           </div>
           <h3 class="text-xl font-bold text-white mb-3 font-display flex items-center gap-2">Fundamentos Sólidos <span class="text-xs bg-pink/20 text-pink px-2 py-1 rounded-full"><i data-feather="pen-tool" class="inline w-3 h-3"></i> Design</span></h3>
-          <p class="text-gray-400 leading-relaxed">Domine composição, tipografia, hierarquia visual e psicologia das cores. Entenda o "porquê" antes do "como".</p>
+          <p class="text-gray-400 leading-relaxed">Teoria completa sobre composição, tipografia, hierarquia visual e psicologia das cores. Entenda o "porquê" antes do "como".</p>
         </div>
         <div class="card-interactive p-6 md:p-8 rounded-2xl reveal group" style="border-bottom-color: #2563EB;">
           <div class="w-16 h-16 bg-blue/10 rounded-2xl flex items-center justify-center mb-6 border border-blue/30 group-hover:scale-110 transition-transform">
             <i data-feather="cpu" class="text-blue w-8 h-8"></i>
           </div>
           <h3 class="text-xl font-bold text-white mb-3 font-display flex items-center gap-2">Arsenal de Ferramentas <span class="text-xs bg-blue/20 text-blue px-2 py-1 rounded-full"><i data-feather="tool" class="inline w-3 h-3"></i> Tecnologia</span></h3>
-          <p class="text-gray-400 leading-relaxed">Photoshop, CorelDraw, Figma, Canva, Ads Manager. Saiba exatamente quando e como usar cada ferramenta.</p>
+          <p class="text-gray-400 leading-relaxed">Aprenda a usar Photoshop, CorelDraw, Figma, Canva, Ads Manager através de demonstrações práticas. Saiba exatamente quando e como cada ferramenta é aplicada.</p>
         </div>
         <div class="card-interactive p-6 md:p-8 rounded-2xl reveal-right group" style="border-bottom-color: #D81B60;">
           <div class="w-16 h-16 bg-gradient-to-br from-pink/20 to-blue/20 rounded-2xl flex items-center justify-center mb-6 border border-white/30 group-hover:scale-110 transition-transform">
             <i data-feather="trending-up" class="text-white w-8 h-8"></i>
           </div>
           <h3 class="text-xl font-bold text-white mb-3 font-display flex items-center gap-2">Business & Tráfego <span class="text-xs bg-gradient-to-r from-pink to-blue text-white px-2 py-1 rounded-full"><i data-feather="zap" class="inline w-3 h-3"></i> Combo</span></h3>
-          <p class="text-gray-400 leading-relaxed">Design bonito que não vende é arte. Aprenda a precificar e a gerar vendas com anúncios estratégicos.</p>
+          <p class="text-gray-400 leading-relaxed">Design bonito que não vende é arte. Aprenda a teoria da precificação e como gerar vendas com anúncios estratégicos através de cases reais.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TRILHAS -->
   <section id="trilhas" class="py-24 relative bg-dark-card/50 border-y border-white/5">
     <div class="container mx-auto px-6">
       <div class="text-center mb-16 reveal">
         <span class="text-blue font-bold tracking-widest uppercase text-sm border border-blue/30 px-4 py-1.5 rounded-full inline-block mb-4"><i data-feather="compass" class="inline w-4 h-4 mr-1"></i> ESCOLHA SUA JORNADA</span>
         <h2 class="font-display text-4xl font-bold mt-2">Trilhas de <span class="bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent">Especialização</span></h2>
-        <p class="text-gray-400 max-w-2xl mx-auto mt-4">Conteúdo estratégico desenvolvido para você dominar do zero ao avançado.</p>
+        <p class="text-gray-400 max-w-2xl mx-auto mt-4">Conteúdo teórico com exemplos práticos, desenvolvido para você dominar do zero ao avançado.</p>
       </div>
       <div class="grid md:grid-cols-2 gap-8 mb-12">
-        <!-- DESIGN -->
         <div class="card-interactive card-design p-6 md:p-8 rounded-2xl reveal-left h-full flex flex-col group">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-14 h-14 bg-pink/20 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
@@ -684,20 +681,19 @@
             <h3 class="text-2xl font-bold font-display text-white">FULL DESIGN</h3>
             <span class="bg-pink text-white text-xs px-2 py-1 rounded-full ml-auto"><i data-feather="droplet" class="inline w-3 h-3"></i>Design</span>
           </div>
-          <p class="text-gray-300 text-sm mb-4"><i data-feather="layers" class="inline text-pink w-4 h-4 mr-1"></i> Do Zero ao Avançado — Ideal para iniciantes e quem quer evoluir para o nível profissional.</p>
+          <p class="text-gray-300 text-sm mb-4"><i data-feather="layers" class="inline text-pink w-4 h-4 mr-1"></i> Teoria completa + demonstrações — Ideal para iniciantes e quem quer evoluir para o nível profissional.</p>
           <ul class="space-y-3 text-gray-400 text-sm flex-1">
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Fundamentos do design profissional</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Psicologia das cores e tipografia</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Construção de identidade visual</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Criação de posts estratégicos</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Estrutura de criativos que convertem</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Design para vendas e lançamentos</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Fundamentos do design profissional (teoria)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Psicologia das cores e tipografia aplicada</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Construção de identidade visual (conceito)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Criação de posts estratégicos (análise de cases)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Estrutura de criativos que convertem (exemplos)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5"></i> Design para vendas e lançamentos (estratégia)</li>
           </ul>
           <div class="mt-6 pt-4 border-t border-white/10">
-            <span class="text-pink font-semibold flex items-center gap-1"><i data-feather="star" class="w-4 h-4"></i> Mentoria VIP de Design</span>
+            <span class="text-pink font-semibold flex items-center gap-1"><i data-feather="star" class="w-4 h-4"></i> Workshop VIP de Design (análise teórica)</span>
           </div>
         </div>
-        <!-- TRÁFEGO -->
         <div class="card-interactive card-trafego p-6 md:p-8 rounded-2xl reveal h-full flex flex-col group">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-14 h-14 bg-blue/20 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
@@ -706,21 +702,20 @@
             <h3 class="text-2xl font-bold font-display text-white">FULL TRÁFEGO</h3>
             <span class="bg-blue text-white text-xs px-2 py-1 rounded-full ml-auto"><i data-feather="droplet" class="inline w-3 h-3"></i> Tráfego</span>
           </div>
-          <p class="text-gray-300 text-sm mb-4"><i data-feather="trending-up" class="inline text-blue w-4 h-4 mr-1"></i> Do Zero ao Avançado — Ideal para quem quer vender para si ou para clientes.</p>
+          <p class="text-gray-300 text-sm mb-4"><i data-feather="trending-up" class="inline text-blue w-4 h-4 mr-1"></i> Teoria + demonstrações — Ideal para quem quer vender para si ou para clientes.</p>
           <ul class="space-y-3 text-gray-400 text-sm flex-1">
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Estrutura completa do Gerenciador de Anúncios</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Criação de campanhas do zero</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Segmentação estratégica de público</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Campanhas para WhatsApp e Instagram</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Estratégia de criativos que vendem</li>
-            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Análise de métricas e otimização</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Estrutura completa do Gerenciador de Anúncios (visão geral)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Criação de campanhas do zero (demonstração)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Segmentação estratégica de público (conceitos)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Campanhas para WhatsApp e Instagram (exemplos)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Estratégia de criativos que vendem (análise)</li>
+            <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5"></i> Análise de métricas e otimização (teoria)</li>
           </ul>
           <div class="mt-6 pt-4 border-t border-white/10">
-            <span class="text-blue font-semibold flex items-center gap-1"><i data-feather="star" class="w-4 h-4"></i> Mentoria VIP de Tráfego</span>
+            <span class="text-blue font-semibold flex items-center gap-1"><i data-feather="star" class="w-4 h-4"></i> Workshop VIP de Tráfego (análise teórica)</span>
           </div>
         </div>
       </div>
-      <!-- COMBO -->
       <div class="card-interactive p-6 md:p-8 rounded-2xl max-w-4xl mx-auto border-2 border-transparent bg-gradient-to-br from-pink/10 via-dark-card to-blue/10 reveal text-center group relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-r from-pink/20 via-transparent to-blue/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
         <div class="inline-block px-4 py-1 bg-gradient-to-r from-pink to-blue rounded-full text-white text-xs font-bold uppercase tracking-wider mb-4">
@@ -730,38 +725,35 @@
           FULL PERFORMANCE
           <i data-feather="zap" class="text-pink w-6 h-6"></i>
         </h3>
-        <p class="text-gray-300 mb-4">A formação completa: Design + Tráfego Pago</p>
+        <p class="text-gray-300 mb-4">A formação completa: Design + Tráfego Pago (teoria + exemplos)</p>
         <div class="flex items-center justify-center gap-3 mb-4">
-          <span class="text-gray-500 line-through text-2xl">R$ 698</span>
-          <span class="text-4xl font-bold text-white">R$ 597</span>
+          <span class="text-gray-500 line-through text-2xl">R$ 697</span>
+          <span class="text-4xl font-bold text-white">R$ 219,90</span>
         </div>
-        <p class="text-pink font-semibold mb-4 flex items-center justify-center gap-1"><i data-feather="dollar-sign" class="w-5 h-5"></i> Economia de R$ 101 + 2 Mentorias VIP</p>
+        <p class="text-pink font-semibold mb-4 flex items-center justify-center gap-1"><i data-feather="dollar-sign" class="w-5 h-5"></i> Economia de R$ 477,10 + 2 Workshops VIP</p>
         <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 text-gray-400 text-sm max-w-2xl mx-auto text-left mb-4">
-          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Mentoria FULL DESIGN</li>
-          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Mentoria FULL TRÁFEGO</li>
-          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Estratégia integrada</li>
-          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Posicionamento e vendas</li>
+          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Workshop FULL DESIGN (teórico)</li>
+          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Workshop FULL TRÁFEGO (teórico)</li>
+          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Estratégia integrada (conceitos)</li>
+          <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Posicionamento e vendas (cases)</li>
         </div>
-        <a href="#planos" class="inline-block px-8 py-3 bg-gradient-to-r from-pink to-blue rounded-full text-white font-bold shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+        <a href="#planos" class="pulse-button inline-flex px-8 py-3 bg-gradient-to-r from-pink to-blue rounded-full text-white font-bold shadow-lg hover:shadow-2xl transition-all">
           GARANTIR COMBO AGORA
         </a>
       </div>
     </div>
   </section>
 
-  <!-- PLANOS -->
   <section id="planos" class="py-32 relative overflow-hidden">
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-pink/20 to-blue/20 blur-[120px] opacity-30 z-0"></div>
     <div class="container mx-auto px-6 relative z-10">
       <div class="text-center mb-16 reveal">
         <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Invista na sua <span class="gradient-text">evolução</span></h2>
-        <p class="text-gray-400 text-lg">Escolha o plano ideal e ganhe Mentorias VIP exclusivas</p>
+        <p class="text-gray-400 text-lg">Escolha o plano ideal e aprenda tudo sobre Design e Tráfego</p>
       </div>
 
-      <!-- CARDS NA ORDEM: DESIGN | FULL PERFORMANCE | TRÁFEGO -->
       <div class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
 
-        <!-- CARD FULL DESIGN (rosa) -->
         <div class="card-interactive card-design rounded-2xl p-6 md:p-8 reveal flex flex-col h-full relative group">
           <div class="absolute top-0 right-0 w-24 h-24 bg-pink/10 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="flex items-center gap-3 mb-4">
@@ -771,27 +763,25 @@
             <h3 class="text-2xl font-bold font-display text-white">FULL DESIGN</h3>
           </div>
           <div class="mb-4">
-            <span class="text-4xl font-bold text-white">R$ 399</span>
-            <span class="text-gray-400 text-sm ml-2">ou 3x R$133</span>
-          </div>
-          <div class="bg-pink/10 p-4 rounded-lg mb-4 border border-pink/30">
-            <p class="text-gray-300 text-sm">
-              <span class="text-white font-semibold flex items-center gap-1"><i data-feather="target" class="w-4 h-4"></i> 1 Mentoria VIP de Design (1h)</span><br>
-              <span class="text-gray-400 text-xs">Análise de portfólio, correção de artes, direcionamento.</span>
-            </p>
+            <span class="text-gray-400 line-through text-lg mr-2">R$ 499</span>
+            <span class="text-4xl font-bold text-white">R$ 149,90</span>
+            <span class="text-gray-400 text-sm ml-2">ou 3x R$49,97</span>
           </div>
           <ul class="space-y-2 text-gray-400 text-sm mb-6 flex-1">
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Fundamentos + psicologia</li>
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Identidade visual</li>
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Posts e criativos que convertem</li>
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Portfólio e posicionamento</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Fundamentos do design (teoria completa)</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Psicologia das cores e tipografia</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Construção de identidade visual</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Criação de posts estratégicos</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Estrutura de criativos que convertem</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Design para vendas e lançamentos</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Demonstrações ao vivo das ferramentas</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4"></i> Análise de cases de sucesso</li>
           </ul>
-          <a href="https://wa.me/5588996754794?text=Olá! Quero garantir minha vaga no *FULL DESIGN* (R$399) e ganhar a Mentoria VIP de Design." target="_blank" class="w-full py-3 bg-pink hover:bg-pink-dark text-white font-bold rounded-lg text-center transition-all transform hover:-translate-y-1 shadow-lg shadow-pink/30">
+          <a href="https://link.infinitepay.io/otaviomarq/Ri0z-2RgJCCP6KN-149,90" target="_blank" class="pulse-button w-full py-3 bg-pink text-white font-bold rounded-lg text-center transition-all shadow-lg shadow-pink/30">
             GARANTIR VAGA
           </a>
         </div>
 
-        <!-- ===== CARD FULL PERFORMANCE ===== -->
         <div class="card-interactive card-full-performance rounded-2xl p-6 md:p-8 reveal flex flex-col h-full relative group 
                     border-2 border-transparent bg-gradient-to-br from-pink/20 via-dark-card to-blue/20 
                     hover:border-pink/50 transition-all 
@@ -808,62 +798,57 @@
             </h3>
           </div>
 
-          <!-- PREÇO COM DESTAQUE -->
           <div class="mb-4 text-center preco-full">
-            <span class="text-gray-400 line-through text-lg md:text-xl mr-2">R$ 698</span>
-            <span class="text-4xl md:text-5xl font-bold text-white drop-shadow-[0_0_15px_rgba(216,27,96,0.5)]">R$ 597</span>
+            <span class="text-gray-400 line-through text-lg md:text-xl mr-2">R$ 697</span>
+            <span class="text-4xl md:text-5xl font-bold text-white drop-shadow-[0_0_15px_rgba(216,27,96,0.5)]">R$ 219,90</span>
             <div class="inline-block ml-2 bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full border border-green-500/30 melhor-escolha-badge">
               MAIS VENDIDO
             </div>
+            <div class="text-gray-400 text-sm mt-1">ou 3x R$73,30</div>
           </div>
 
-          <!-- DESTAQUE DAS 2 MENTORIAS -->
           <div class="bg-gradient-to-r from-pink/30 to-blue/30 p-5 rounded-xl mb-4 border border-white/30 shadow-inner">
             <p class="text-gray-100 text-sm font-bold text-center">
               <span class="text-white bg-black/30 px-3 py-1 rounded-full text-xs mr-2">🔥 2x VIP</span>
-              <span class="text-white">Design + Tráfego</span>
+              <span class="text-white">Design + Tráfego (análises teóricas)</span>
             </p>
             <p class="text-gray-300 text-xs mt-2 text-center">
-              + Plano estratégico integrado (criativo + anúncio)
+              + Plano estratégico integrado (criativo + anúncio) — conceitos e cases
             </p>
           </div>
 
-          <!-- LISTA DE BENEFÍCIOS -->
           <ul class="space-y-2 text-gray-400 text-sm mb-6 flex-1">
             <li class="flex items-center gap-2 bg-white/5 p-2 rounded-lg">
               <i data-feather="check-circle" class="text-pink w-4 h-4"></i>
-              <span class="text-white font-medium">Tudo do FULL DESIGN</span>
+              <span class="text-white font-medium">Tudo do FULL DESIGN (teoria + exemplos)</span>
             </li>
             <li class="flex items-center gap-2 bg-white/5 p-2 rounded-lg">
               <i data-feather="check-circle" class="text-blue w-4 h-4"></i>
-              <span class="text-white font-medium">Tudo do FULL TRÁFEGO</span>
+              <span class="text-white font-medium">Tudo do FULL TRÁFEGO (teoria + exemplos)</span>
             </li>
             <li class="flex items-center gap-2 bg-white/5 p-2 rounded-lg">
               <i data-feather="check-circle" class="text-gradient w-4 h-4"></i>
-              <span class="text-white font-medium">Estratégia integrada</span>
+              <span class="text-white font-medium">Estratégia integrada (conceitos)</span>
             </li>
             <li class="flex items-center gap-2 bg-white/5 p-2 rounded-lg">
               <i data-feather="check-circle" class="text-gradient w-4 h-4"></i>
-              <span class="text-white font-medium">Posicionamento e vendas</span>
+              <span class="text-white font-medium">Posicionamento e vendas (cases)</span>
+            </li>
+            <li class="flex items-center gap-2 bg-white/5 p-2 rounded-lg">
+              <i data-feather="check-circle" class="text-gradient w-4 h-4"></i>
+              <span class="text-white font-medium">Workshops VIP com análise personalizada</span>
             </li>
           </ul>
 
-          <!-- BOTÃO PRINCIPAL -->
-          <a href="https://wa.me/5588996754794?text=Olá! Quero garantir minha vaga no *COMBO FULL PERFORMANCE* (R$597) e ganhar as 2 Mentorias VIP + Plano Estratégico." target="_blank" class="w-full py-4 bg-gradient-to-r from-pink to-blue hover:from-pink-600 hover:to-blue-600 
-                    text-white font-bold rounded-xl text-center transition-all 
-                    transform hover:scale-105 hover:-translate-y-1 
-                    shadow-2xl shadow-pink/50 hover:shadow-pink/70 
-                    flex items-center justify-center gap-2 text-base md:text-lg border border-white/20">
+          <a href="https://link.infinitepay.io/otaviomarq/Ri0z-7L2ubSDjPV-219,90" target="_blank" class="pulse-button w-full py-4 bg-gradient-to-r from-pink to-blue text-white font-bold rounded-xl text-center transition-all flex items-center justify-center gap-2 text-base md:text-lg border border-white/20">
             <i data-feather="zap" class="w-5 h-5"></i> GARANTIR COMBO AGORA <i data-feather="arrow-right" class="w-5 h-5"></i>
           </a>
 
-          <!-- FRASE DE URGÊNCIA -->
           <p class="text-xs text-gray-500 mt-4 text-center flex items-center justify-center gap-1">
             <i data-feather="clock" class="w-3 h-3 text-pink"></i> Últimas vagas do 1º lote
           </p>
         </div>
 
-        <!-- CARD FULL TRÁFEGO (azul) -->
         <div class="card-interactive card-trafego rounded-2xl p-6 md:p-8 reveal flex flex-col h-full relative group">
           <div class="absolute top-0 right-0 w-24 h-24 bg-blue/10 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="flex items-center gap-3 mb-4">
@@ -873,36 +858,33 @@
             <h3 class="text-2xl font-bold font-display text-white">FULL TRÁFEGO</h3>
           </div>
           <div class="mb-4">
-            <span class="text-4xl font-bold text-white">R$ 299</span>
-            <span class="text-gray-400 text-sm ml-2">ou 3x R$99,66</span>
-          </div>
-          <div class="bg-blue/10 p-4 rounded-lg mb-4 border border-blue/30">
-            <p class="text-gray-300 text-sm">
-              <span class="text-white font-semibold flex items-center gap-1"><i data-feather="target" class="w-4 h-4"></i> 1 Mentoria VIP de Tráfego (1h)</span><br>
-              <span class="text-gray-400 text-xs">Análise de campanha, correção de estrutura, otimização.</span>
-            </p>
+            <span class="text-gray-400 line-through text-lg mr-2">R$ 399</span>
+            <span class="text-4xl font-bold text-white">R$ 109,90</span>
+            <span class="text-gray-400 text-sm ml-2">ou 3x R$36,63</span>
           </div>
           <ul class="space-y-2 text-gray-400 text-sm mb-6 flex-1">
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Gerenciador de Anúncios</li>
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Campanhas do zero</li>
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Segmentação estratégica</li>
-            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Escala e otimização</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Gerenciador de Anúncios (visão geral)</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Criação de campanhas do zero (demonstração)</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Segmentação estratégica de público</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Campanhas para WhatsApp e Instagram</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Estratégia de criativos que vendem</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Análise de métricas e otimização</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Escala e otimização de campanhas</li>
+            <li class="flex items-center gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4"></i> Demonstrações ao vivo das ferramentas</li>
           </ul>
-          <a href="https://wa.me/5588996754794?text=Olá! Quero garantir minha vaga no *FULL TRÁFEGO* (R$299) e ganhar a Mentoria VIP de Tráfego." target="_blank" class="w-full py-3 bg-blue hover:bg-blue-dark text-white font-bold rounded-lg text-center transition-all transform hover:-translate-y-1 shadow-lg shadow-blue/30">
+          <a href="https://link.infinitepay.io/otaviomarq/Ri0z-3fWTkNVhKd-109,90" target="_blank" class="pulse-button w-full py-3 bg-blue text-white font-bold rounded-lg text-center transition-all shadow-lg shadow-blue/30">
             GARANTIR VAGA
           </a>
         </div>
 
-      </div> <!-- fim grid -->
-
-      <!-- PROMO 1º LOTE -->
+      </div>
       <div class="mt-12 text-center reveal">
         <div class="glass inline-block px-6 py-5 md:px-8 md:py-6 rounded-2xl border border-gradient-to-r from-pink to-blue p-[1px]">
           <div class="bg-dark-card rounded-2xl px-6 py-4 md:px-8 md:py-5">
             <span class="text-xl md:text-3xl font-display font-bold bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent flex items-center justify-center gap-2">
               <i data-feather="zap" class="w-5 h-5 md:w-6 md:h-6"></i> EXCLUSIVIDADE DE 1º LOTE <i data-feather="zap" class="w-5 h-5 md:w-6 md:h-6"></i>
             </span><br>
-            <span class="text-gray-300 text-base md:text-lg">Mentoria completa ao vivo: <span class="text-white font-bold">21/06/2026</span></span><br>
+            <span class="text-gray-300 text-base md:text-lg">Workshop completo ao vivo: <span class="text-white font-bold">21/06/2026</span></span><br>
             <span class="text-gray-400 text-xs md:text-sm">Vagas limitadas — preço promocional válido apenas para este lote.</span>
           </div>
         </div>
@@ -910,7 +892,6 @@
     </div>
   </section>
 
-  <!-- MENTORES -->
   <section id="mentores" class="py-24">
     <div class="container mx-auto px-6">
       <div class="text-center mb-16 reveal">
@@ -918,7 +899,6 @@
         <h2 class="font-display text-4xl font-bold mt-2">Quem vai te <span class="bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent">guiar</span></h2>
       </div>
       <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-        <!-- Otávio -->
         <div class="group relative reveal-left">
           <div class="absolute inset-0 bg-gradient-to-b from-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 rounded-2xl -z-10 blur-xl"></div>
           <div class="card-interactive rounded-2xl overflow-hidden h-full">
@@ -941,7 +921,6 @@
             </div>
           </div>
         </div>
-        <!-- Theo -->
         <div class="group relative reveal">
           <div class="absolute inset-0 bg-gradient-to-b from-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 rounded-2xl -z-10 blur-xl"></div>
           <div class="card-interactive rounded-2xl overflow-hidden h-full">
@@ -968,7 +947,6 @@
     </div>
   </section>
 
-  <!-- NÚMEROS -->
   <section class="py-20 border-y border-white/5 bg-gradient-to-r from-dark-card/80 to-dark-bg/80 backdrop-blur-sm">
     <div class="container mx-auto px-6">
       <div class="grid md:grid-cols-3 gap-8">
@@ -988,12 +966,11 @@
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq" class="py-24">
     <div class="container mx-auto px-6 max-w-3xl">
       <div class="text-center mb-16 reveal">
         <h2 class="font-display text-3xl font-bold mb-2">Dúvidas <span class="bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent">Frequentes</span></h2>
-        <p class="text-gray-400">Tire suas principais dúvidas sobre as mentorias</p>
+        <p class="text-gray-400">Tire suas principais dúvidas sobre os workshops</p>
       </div>
       <div class="space-y-4 reveal">
         <div class="glass rounded-2xl overflow-hidden border border-white/5 hover:border-pink/30 transition-colors">
@@ -1002,21 +979,21 @@
             <i data-feather="chevron-down" class="text-pink transition-transform duration-300 w-5 h-5"></i>
           </button>
           <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-            <p class="p-6 pt-0 text-gray-400 text-sm border-t border-white/10">Não! As mentorias foram desenhadas "Do Zero ao Avançado". Começamos pelos fundamentos e evoluímos até técnicas profissionais.</p>
+            <p class="p-6 pt-0 text-gray-400 text-sm border-t border-white/10">Não! Os workshops foram desenhados "Do Zero ao Avançado". Começamos pelos fundamentos teóricos e evoluímos até técnicas profissionais, sempre com exemplos práticos.</p>
           </div>
         </div>
         <div class="glass rounded-2xl overflow-hidden border border-white/5 hover:border-blue/30 transition-colors">
           <button class="faq-btn w-full flex justify-between items-center p-6 text-left focus:outline-none hover:bg-white/5 transition group">
-            <span class="font-bold text-white group-hover:text-blue transition-colors flex items-center gap-2"><i data-feather="video" class="w-4 h-4 text-blue"></i> Como funciona a Mentoria VIP?</span>
+            <span class="font-bold text-white group-hover:text-blue transition-colors flex items-center gap-2"><i data-feather="video" class="w-4 h-4 text-blue"></i> Como funciona o Workshop VIP?</span>
             <i data-feather="chevron-down" class="text-blue transition-transform duration-300 w-5 h-5"></i>
           </button>
           <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-            <p class="p-6 pt-0 text-gray-400 text-sm border-t border-white/10">É um encontro exclusivo ao vivo de 1h com o mentor. Você recebe análise individual do seu perfil, portfólio ou campanha, correções práticas e um plano de ação personalizado.</p>
+            <p class="p-6 pt-0 text-gray-400 text-sm border-t border-white/10">É um encontro exclusivo ao vivo de 1h com o mentor. Você recebe análise teórica do seu perfil, portfólio ou campanha, correções com exemplos práticos e um plano de ação personalizado.</p>
           </div>
         </div>
         <div class="glass rounded-2xl overflow-hidden border border-white/5 hover:border-gradient-to-r from-pink to-blue transition-colors">
           <button class="faq-btn w-full flex justify-between items-center p-6 text-left focus:outline-none hover:bg-white/5 transition group">
-            <span class="font-bold text-white group-hover:bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent flex items-center gap-2"><i data-feather="globe" class="w-4 h-4 text-gradient"></i> A mentoria é online ou presencial?</span>
+            <span class="font-bold text-white group-hover:bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent flex items-center gap-2"><i data-feather="globe" class="w-4 h-4 text-gradient"></i> O workshop é online ou presencial?</span>
             <i data-feather="chevron-down" class="text-gradient transition-transform duration-300 w-5 h-5"></i>
           </button>
           <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
@@ -1036,14 +1013,13 @@
     </div>
   </section>
 
-  <!-- CTA FINAL -->
   <section class="py-20 relative overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-r from-pink/10 to-blue/10 backdrop-blur-3xl"></div>
     <div class="container mx-auto px-6 text-center relative z-10">
       <div class="max-w-3xl mx-auto glass p-8 md:p-12 rounded-3xl border border-white/10">
         <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Pronto para <span class="gradient-text">acelerar</span> sua carreira?</h2>
-        <p class="text-gray-400 mb-8 text-lg">Vagas limitadas para o 1º lote. Garanta sua vaga agora e ganhe mentorias VIP exclusivas.</p>
-        <a href="#planos" class="inline-flex items-center gap-2 px-8 py-4 md:px-10 md:py-5 bg-gradient-to-r from-pink to-blue rounded-full text-white font-bold text-base md:text-lg shadow-2xl hover:shadow-pink/40 transition-all transform hover:scale-105">
+        <p class="text-gray-400 mb-8 text-lg">Vagas limitadas para o 1º lote. Garanta sua vaga agora e aprenda com quem entende do assunto.</p>
+        <a href="#planos" class="pulse-button inline-flex items-center gap-2 px-8 py-4 md:px-10 md:py-5 bg-gradient-to-r from-pink to-blue rounded-full text-white font-bold text-base md:text-lg shadow-2xl hover:shadow-pink/40 transition-all">
           <i data-feather="calendar" class="w-5 h-5"></i> QUERO GARANTIR MINHA VAGA
         </a>
         <p class="text-gray-500 text-sm mt-6 flex items-center justify-center gap-1"><i data-feather="info" class="w-4 h-4"></i> Promoção válida apenas para os 50 primeiros inscritos</p>
@@ -1051,7 +1027,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="bg-black/90 border-t border-white/10 py-12 backdrop-blur-sm">
     <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
       <div class="flex items-center gap-2">
