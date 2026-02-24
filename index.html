@@ -575,6 +575,143 @@
         padding: 10px 12px;
       }
     }
+
+    /* ========== MODAL DO FORMULÁRIO ========== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: #0F0F0F;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 32px;
+      max-width: 480px;
+      width: 90%;
+      padding: 32px 24px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(216, 27, 96, 0.3) inset;
+      transform: scale(0.95);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-header h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #D81B60, #2563EB);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #aaa;
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #D81B60;
+    }
+
+    .modal-form .input-group {
+      margin-bottom: 20px;
+    }
+
+    .modal-form label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #ccc;
+      margin-bottom: 6px;
+    }
+
+    .modal-form input {
+      width: 100%;
+      padding: 14px 16px;
+      background: #1A1A1A;
+      border: 1px solid #333;
+      border-radius: 16px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .modal-form input:focus {
+      outline: none;
+      border-color: #D81B60;
+      box-shadow: 0 0 0 2px rgba(216, 27, 96, 0.3);
+    }
+
+    .modal-form button[type="submit"] {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #D81B60, #2563EB);
+      border: none;
+      border-radius: 40px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 16px;
+    }
+
+    .modal-form button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -10px #D81B60;
+    }
+
+    .modal-form button[type="submit"]:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .modal-plan-badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 40px;
+      padding: 8px 16px;
+      display: inline-block;
+      margin-bottom: 16px;
+      color: #D81B60;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 
@@ -826,7 +963,8 @@
             <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5 flex-shrink-0"></i> Demonstrações ao vivo das ferramentas</li>
             <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-pink w-4 h-4 mt-0.5 flex-shrink-0"></i> Análise de cases de sucesso</li>
           </ul>
-          <a href="https://link.infinitepay.io/flux_agency/Ri0z-2RgmB847Tj-149,90" target="_blank" class="pulse-button w-full py-3 md:py-4 bg-pink text-white font-bold rounded-lg text-center transition-all shadow-lg shadow-pink/30 text-sm md:text-base mt-auto">
+          <!-- Link de pagamento modificado: adicionamos data-plan e classe plan-button -->
+          <a href="https://link.infinitepay.io/flux_agency/Ri0z-2RgmB847Tj-149,90" target="_blank" class="pulse-button w-full py-3 md:py-4 bg-pink text-white font-bold rounded-lg text-center transition-all shadow-lg shadow-pink/30 text-sm md:text-base mt-auto plan-button" data-plan="FULL DESIGN" data-payment-link="https://link.infinitepay.io/flux_agency/Ri0z-2RgmB847Tj-149,90">
             GARANTIR VAGA
           </a>
         </div>
@@ -889,7 +1027,8 @@
             </li>
           </ul>
 
-          <a href="https://link.infinitepay.io/flux_agency/Ri0z-2RgmOAFNU7-219,90" target="_blank" class="pulse-button w-full py-3 md:py-4 bg-gradient-to-r from-pink to-blue text-white font-bold rounded-xl text-center transition-all flex items-center justify-center gap-2 text-sm md:text-lg border border-white/20 mt-auto">
+          <!-- Link de pagamento modificado -->
+          <a href="https://link.infinitepay.io/flux_agency/Ri0z-2RgmOAFNU7-219,90" target="_blank" class="pulse-button w-full py-3 md:py-4 bg-gradient-to-r from-pink to-blue text-white font-bold rounded-xl text-center transition-all flex items-center justify-center gap-2 text-sm md:text-lg border border-white/20 mt-auto plan-button" data-plan="FULL PERFORMANCE" data-payment-link="https://link.infinitepay.io/flux_agency/Ri0z-2RgmOAFNU7-219,90">
             <i data-feather="zap" class="w-4 h-4 md:w-5 md:h-5"></i> GARANTIR COMBO AGORA
           </a>
 
@@ -921,7 +1060,8 @@
             <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5 flex-shrink-0"></i> Escala e otimização de campanhas</li>
             <li class="flex items-start gap-2"><i data-feather="check-circle" class="text-blue w-4 h-4 mt-0.5 flex-shrink-0"></i> Demonstrações ao vivo das ferramentas</li>
           </ul>
-          <a href="https://link.infinitepay.io/flux_agency/Ri0z-3fXA4EoCCX-109,90" target="_blank" class="pulse-button w-full py-3 md:py-4 bg-blue text-white font-bold rounded-lg text-center transition-all shadow-lg shadow-blue/30 text-sm md:text-base mt-auto">
+          <!-- Link de pagamento modificado -->
+          <a href="https://link.infinitepay.io/flux_agency/Ri0z-3fXA4EoCCX-109,90" target="_blank" class="pulse-button w-full py-3 md:py-4 bg-blue text-white font-bold rounded-lg text-center transition-all shadow-lg shadow-blue/30 text-sm md:text-base mt-auto plan-button" data-plan="FULL TRÁFEGO" data-payment-link="https://link.infinitepay.io/flux_agency/Ri0z-3fXA4EoCCX-109,90">
             GARANTIR VAGA
           </a>
         </div>
@@ -1090,15 +1230,144 @@
     </div>
   </footer>
 
+  <!-- ===== MODAL DO FORMULÁRIO ===== -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><span id="modal-plan-name">FULL DESIGN</span></h3>
+        <button class="modal-close" id="modal-close"><i data-feather="x" width="28" height="28"></i></button>
+      </div>
+      <div class="modal-plan-badge" id="modal-plan-badge">Plano escolhido: <span id="modal-plan-display"></span></div>
+      <form class="modal-form" id="lead-form">
+        <input type="hidden" id="selected-plan" value="">
+        <input type="hidden" id="payment-link" value="">
+        <div class="input-group">
+          <label><i data-feather="user" class="inline w-4 h-4 mr-1"></i> Nome Completo</label>
+          <input type="text" id="nome" placeholder="Seu nome completo" required>
+        </div>
+        <div class="input-group">
+          <label><i data-feather="mail" class="inline w-4 h-4 mr-1"></i> E-mail</label>
+          <input type="email" id="email" placeholder="voce@email.com" required>
+        </div>
+        <div class="input-group">
+          <label><i data-feather="phone" class="inline w-4 h-4 mr-1"></i> Telefone (WhatsApp)</label>
+          <input type="tel" id="telefone" placeholder="(11) 99999-9999" required>
+        </div>
+        <button type="submit" id="submit-btn">
+          <i data-feather="arrow-right" class="w-5 h-5"></i> IR PARA PAGAMENTO
+        </button>
+        <p class="text-center text-gray-500 text-xs mt-3">Seus dados serão salvos em nossa planilha de leads.</p>
+      </form>
+    </div>
+  </div>
+
   <script>
     feather.replace();
 
-    // Canvas de partículas
+    // ===== CONFIGURAÇÃO DO GOOGLE APPS SCRIPT =====
+    // 🔁 Substitua pela URL do seu Web App do Google Apps Script
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJOnwf_oeoHzUbcZKJjfEANxL_KYjF3Ebm_NZLOaw27hmVFJKOLcQE-Qs1-SU5UEXC/exec'; // COLE AQUI SUA URL
+
+    // ===== CONTROLE DO MODAL =====
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalClose = document.getElementById('modal-close');
+    const modalPlanName = document.getElementById('modal-plan-name');
+    const modalPlanDisplay = document.getElementById('modal-plan-display');
+    const selectedPlanInput = document.getElementById('selected-plan');
+    const paymentLinkInput = document.getElementById('payment-link');
+    const leadForm = document.getElementById('lead-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    let currentPaymentLink = '';
+
+    // Abrir modal quando clicar em qualquer botão de plano (classe plan-button)
+    document.querySelectorAll('.plan-button').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault(); // Impede o link direto
+        const plan = this.getAttribute('data-plan');
+        const link = this.getAttribute('data-payment-link');
+        if (plan && link) {
+          modalPlanName.innerText = plan;
+          modalPlanDisplay.innerText = plan;
+          selectedPlanInput.value = plan;
+          paymentLinkInput.value = link;
+          currentPaymentLink = link;
+          modalOverlay.classList.add('active');
+          feather.replace(); // Atualiza ícones no modal
+        }
+      });
+    });
+
+    // Fechar modal
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      leadForm.reset();
+    }
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', function (e) {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // ===== ENVIO DO FORMULÁRIO =====
+    leadForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const plano = selectedPlanInput.value;
+      const pagamentoLink = paymentLinkInput.value;
+
+      if (!nome || !email || !telefone || !plano) {
+        alert('Preencha todos os campos');
+        return;
+      }
+
+      // Desabilita botão enquanto envia
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i data-feather="loader" class="w-5 h-5 animate-spin"></i> ENVIANDO...';
+      feather.replace();
+
+      // Dados a serem enviados para o Google Sheets
+      const payload = {
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        plano: plano,
+        timestamp: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+      };
+
+      try {
+        // Envia para o Google Apps Script
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors', // Necessário para evitar CORS no Google Script
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        // Com no-cors, não conseguimos ler a resposta, mas assumimos sucesso
+        // Pequeno delay para parecer que enviou
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // Redireciona para o link de pagamento
+        window.location.href = pagamentoLink;
+
+      } catch (error) {
+        console.error('Erro ao enviar:', error);
+        alert('Ocorreu um erro ao enviar seus dados. Tente novamente.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i data-feather="arrow-right" class="w-5 h-5"></i> IR PARA PAGAMENTO';
+        feather.replace();
+      }
+    });
+
+    // ===== CANVAS DE PARTÍCULAS (já existente) =====
     const canvas = document.getElementById('network-canvas');
     const ctx = canvas.getContext('2d');
     let width, height;
     let particles = [];
-    const particleCount = window.innerWidth < 768 ? 40 : 100; // Reduzido no mobile para melhor performance
+    const particleCount = window.innerWidth < 768 ? 40 : 100;
     const connectionDistance = window.innerWidth < 768 ? 100 : 160;
     let mouse = { x: null, y: null };
 
@@ -1150,14 +1419,14 @@
     }
     resize(); initParticles(); animateParticles();
 
-    // Scroll reveal
+    // Scroll reveal (já existente)
     const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); } });
     }, observerOptions);
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
 
-    // FAQ Accordion
+    // FAQ Accordion (já existente)
     document.querySelectorAll('.faq-btn').forEach(button => {
       button.addEventListener('click', () => {
         const content = button.nextElementSibling;
@@ -1175,7 +1444,7 @@
       });
     });
 
-    // Mobile menu
+    // Mobile menu (já existente)
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuIcon = document.getElementById('menu-icon');
@@ -1188,22 +1457,18 @@
     }
 
     mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-
     document.querySelectorAll('.mobile-link').forEach(link => {
       link.addEventListener('click', () => {
-        if (!mobileMenu.classList.contains('hidden')) {
-          toggleMobileMenu();
-        }
+        if (!mobileMenu.classList.contains('hidden')) { toggleMobileMenu(); }
       });
     });
 
-    // ===== SOM DE CAIXA REGISTRADORA ("CHA-CHING") =====
+    // Notificações (já existente)
     function playCashSound() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return;
         const audioCtx = new AudioContext();
-
         const osc1 = audioCtx.createOscillator();
         const gain1 = audioCtx.createGain();
         osc1.type = 'sine';
@@ -1211,9 +1476,7 @@
         osc1.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.15);
         gain1.gain.setValueAtTime(0.15, audioCtx.currentTime);
         gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-        osc1.connect(gain1);
-        gain1.connect(audioCtx.destination);
-
+        osc1.connect(gain1); gain1.connect(audioCtx.destination);
         const osc2 = audioCtx.createOscillator();
         const gain2 = audioCtx.createGain();
         osc2.type = 'sine';
@@ -1221,76 +1484,31 @@
         osc2.frequency.exponentialRampToValueAtTime(330, audioCtx.currentTime + 0.2);
         gain2.gain.setValueAtTime(0.1, audioCtx.currentTime + 0.05);
         gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-        osc2.connect(gain2);
-        gain2.connect(audioCtx.destination);
-
-        osc1.start(audioCtx.currentTime);
-        osc1.stop(audioCtx.currentTime + 0.3);
-        osc2.start(audioCtx.currentTime + 0.05);
-        osc2.stop(audioCtx.currentTime + 0.3);
-
+        osc2.connect(gain2); gain2.connect(audioCtx.destination);
+        osc1.start(audioCtx.currentTime); osc1.stop(audioCtx.currentTime + 0.3);
+        osc2.start(audioCtx.currentTime + 0.05); osc2.stop(audioCtx.currentTime + 0.3);
         if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-      } catch (e) {
-        console.log('Áudio não disponível');
-      }
+      } catch (e) { console.log('Áudio não disponível'); }
     }
 
-    // ===== SISTEMA DE NOTIFICAÇÕES =====
     const notificationContainer = document.getElementById('notification-container');
-
-    const nomes = [
-      "Rafael Gomes", "Ana Clara", "João Pedro", "Mariana Costa", "Lucas Oliveira",
-      "Beatriz Santos", "Gabriel Souza", "Juliana Lima", "Fernando Alves", "Camila Rocha",
-      "Thiago Martins", "Larissa Fernandes", "Bruno Ribeiro", "Amanda Carvalho", "Rodrigo Teixeira",
-      "Vanessa Duarte", "Eduardo Cardoso", "Patrícia Gomes", "Carlos Eduardo", "Aline Moraes",
-      "Marcos Vinícius", "Renata Azevedo", "Felipe Araújo", "Tatiane Barbosa", "Diego Nunes",
-      "Priscila Vieira", "Leandro Santos", "Bianca Rodrigues", "Alexandre Pereira", "Cristiane Lopes"
-    ];
-
-    const produtos = [
-      { nome: "FULL DESIGN", icone: "pen-tool", classe: "notification-design", badge: "Design" },
-      { nome: "FULL TRÁFEGO", icone: "trending-up", classe: "notification-trafego", badge: "Tráfego" },
-      { nome: "FULL PERFORMANCE", icone: "zap", classe: "notification-performance", badge: "Combo" }
-    ];
-
+    const nomes = ["Rafael Gomes", "Ana Clara", "João Pedro", "Mariana Costa", "Lucas Oliveira", "Beatriz Santos", "Gabriel Souza", "Juliana Lima", "Fernando Alves", "Camila Rocha", "Thiago Martins", "Larissa Fernandes", "Bruno Ribeiro", "Amanda Carvalho", "Rodrigo Teixeira", "Vanessa Duarte", "Eduardo Cardoso", "Patrícia Gomes", "Carlos Eduardo", "Aline Moraes", "Marcos Vinícius", "Renata Azevedo", "Felipe Araújo", "Tatiane Barbosa", "Diego Nunes", "Priscila Vieira", "Leandro Santos", "Bianca Rodrigues", "Alexandre Pereira", "Cristiane Lopes"];
+    const produtos = [{ nome: "FULL DESIGN", icone: "pen-tool", classe: "notification-design", badge: "Design" }, { nome: "FULL TRÁFEGO", icone: "trending-up", classe: "notification-trafego", badge: "Tráfego" }, { nome: "FULL PERFORMANCE", icone: "zap", classe: "notification-performance", badge: "Combo" }];
     function showNotification() {
-      // Ignorar notificações se for mobile (melhora a experiência do usuário de não atrapalhar a tela)
-      // Descomente a linha abaixo se quiser desativar completamente os popups no mobile
-      // if (window.innerWidth < 768) return; 
-
       playCashSound();
-
       const nome = nomes[Math.floor(Math.random() * nomes.length)];
       const produto = produtos[Math.floor(Math.random() * produtos.length)];
-
       const notification = document.createElement('div');
       notification.className = `notification ${produto.classe}`;
-
       const iconHtml = `<div class="notification-icon"><i data-feather="${produto.icone}" width="24" height="24"></i></div>`;
-
       const now = new Date();
       const timeString = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-      const contentHtml = `
-        <div class="notification-content">
-          <div class="notification-title">
-            <i data-feather="dollar-sign" width="14" height="14"></i> ${nome}
-            <span class="notification-badge">${produto.badge}</span>
-          </div>
-          <div class="notification-subtitle">Adquiriu <strong>${produto.nome}</strong></div>
-          <div class="notification-time"><i data-feather="clock" width="12" height="12"></i> ${timeString}</div>
-        </div>
-      `;
-
+      const contentHtml = `<div class="notification-content"><div class="notification-title"><i data-feather="dollar-sign" width="14" height="14"></i> ${nome}<span class="notification-badge">${produto.badge}</span></div><div class="notification-subtitle">Adquiriu <strong>${produto.nome}</strong></div><div class="notification-time"><i data-feather="clock" width="12" height="12"></i> ${timeString}</div></div>`;
       notification.innerHTML = iconHtml + contentHtml;
       notificationContainer.appendChild(notification);
       feather.replace();
-
-      setTimeout(() => {
-        if (notification.parentNode) { notification.remove(); }
-      }, 5000);
+      setTimeout(() => { if (notification.parentNode) { notification.remove(); } }, 5000);
     }
-
     setTimeout(showNotification, 2000);
     setInterval(showNotification, 18000);
 
